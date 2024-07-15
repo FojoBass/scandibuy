@@ -1,75 +1,37 @@
 <?php
 
+use Dotenv\Dotenv;
+use src\Config\Config;
+use src\Database\Database;
+use src\Utils\Logger;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$jsonString = file_get_contents(__DIR__ . '/../Scandiweb.json');
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-if (!$jsonString) die("Error reading JSON file");
+new Database(Config::getConfig(), $_ENV["DB_USER"], $_ENV["DB_PWD"]);
 
-$data = json_decode($jsonString, true);
-extract($data["data"]);
+$dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
+  $r->post('/graphql', [src\controllers\GraphQL::class, 'handle']);
+});
 
+$routeInfo = $dispatcher->dispatch(
+  $_SERVER['REQUEST_METHOD'],
+  $_SERVER['REQUEST_URI']
+);
 
-
-$dsn = "mysql:hostname=localhost;port=3306;dbname=mysql_testdb;charset=utf8mb4";
-$pdo = new PDO($dsn, 'root', "", [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-
-
-$attributes = [];
-$attributeItems = [];
-$prices = [];
-
-function queryDb($query, $pdo)
-{
- $statement = $pdo->prepare($query);
- $statement = $statement->execute();
+switch ($routeInfo[0]) {
+  case FastRoute\Dispatcher::NOT_FOUND:
+    echo '404 Not found!';
+    break;
+  case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+    $allowedMethods = $routeInfo[1];
+    echo '405 Not allowed';
+    break;
+  case FastRoute\Dispatcher::FOUND:
+    $handler = $routeInfo[1];
+    $vars = $routeInfo[2];
+    echo $handler($vars);
+    break;
 }
-
-function prepGallery($products)
-{
- $links = [];
- foreach ($products as $product) {
-  foreach ($product["gallery"] as $gallery) {
-   $link["product_id"] = $product["id"];
-   $link["url"] = $gallery;
-   array_push($links, $link);
-  }
- };
- return $links;
-}
-
-function inserter($items, $resolver)
-{
- foreach ($items as $item) {
-  $resolver($item);
- }
-}
-
-function insertCateg($category)
-{
- $query = "insert into categories (name) values ({$category["name"]})";
-
- print_r($query);
-}
-
-function insertProduct($product)
-{
- $query = "insert into products (id, inStock, description, category, brand) values ({$product["id"]}, {$product["inStock"]}, {$product["description"]}, {$product["category"]}, {$product["brand"]})";
-
- print_r($query);
-}
-
-function insertGallery($link)
-{
- $query = "insert into galleries (product_id, url) values ({$link["product_id"]}, {$link["url"]})";
-
- print_r($query);
-}
-
-$galleries = prepGallery($products);
-
-// todo Prep attributes, attibute_items, and prices
-
-// inserter($categories, 'insertCateg');
-// inserter($products, 'insertProduct');
-inserter($galleries, 'insertGallery');
