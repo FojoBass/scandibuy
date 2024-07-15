@@ -9,13 +9,13 @@ use src\Utils\Logger;
 
 class ProductModel extends AbstractModel
 {
- public static function getAll($returnMod = 0): array
+ public static function getAll(int $returnMod = 0): array
  {
   return static::queryAllData(DbQueries::GET_ALL_PRODUCTS, $returnMod);
  }
 
  public static function get(string $key): array
  {
-  return [];
+  return static::queryData(DbQueries::GET_PRODUCT, ["id" => $key]);
  }
 }

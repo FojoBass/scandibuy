@@ -34,13 +34,29 @@ class Database
   if (!isset(self::$instance)) self::$instance = new self(Config::getConfig(), $_ENV["DB_USER"], $_ENV["DB_PWD"]);
  }
 
- protected static function queryAllData($query, $returnMod): array
+ protected static function queryAllData(string $query, int $returnMod, array $params = []): array
  {
   try {
    self::checkInstance();
-   return self::$instance->query($query)->fetchAll($returnMod);
+   return self::$instance->query($query, $params)->fetchAll($returnMod);
   } catch (Throwable $e) {
    Logger::error($e);
   }
+ }
+
+ protected static function queryData(string $query, array $params): array
+ {
+  try {
+   self::checkInstance();
+   return self::$instance->query($query, $params)->fetch();
+  } catch (Throwable $e) {
+   Logger::error($e);
+  }
+ }
+
+ protected static function setData(string $query, array $params)
+ {
+  self::checkInstance();
+  self::$instance->query($query, $params);
  }
 }

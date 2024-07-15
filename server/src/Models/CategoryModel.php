@@ -9,7 +9,7 @@ use src\Utils\Logger;
 
 class CategoryModel extends AbstractModel
 {
- public static function getAll($returnMod = 0): array
+ public static function getAll(int $returnMod = 0, $params = []): array
  {
   return static::queryAllData(DbQueries::GET_ALL_CATEGORIES, $returnMod);
  }

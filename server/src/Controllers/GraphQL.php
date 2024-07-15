@@ -30,6 +30,7 @@ class GraphQL
    $result = GraphQLGraphQL::executeQuery($schema, $query, $rootValue, null, $variableValues);
    $output = $result->toArray();
   } catch (Throwable $e) {
+   echo "Error throwed";
    $output = [
     'errors' => [
      [

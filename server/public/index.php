@@ -3,7 +3,6 @@
 use Dotenv\Dotenv;
 use src\Config\Config;
 use src\Database\Database;
-use src\Utils\Logger;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
