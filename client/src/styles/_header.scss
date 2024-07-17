@@ -1,0 +1,49 @@
+@use './config' as *;
+
+#header {
+  svg {
+    display: block;
+  }
+
+  .center_sect {
+    @include flex(space-between, center);
+
+    .categories {
+      @include flex(flex-start, center);
+      gap: 10px;
+      padding-block: 10px;
+
+      .categ_btn {
+        padding: 10px;
+        text-transform: uppercase;
+        border-bottom: 2px solid transparent;
+
+        &.active {
+          border-color: $clr_acc;
+          color: $clr_acc;
+          pointer-events: none;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .bag_icon {
+      color: $clr_acc;
+      font-size: 2.5rem;
+    }
+
+    .cart_btn {
+      font-size: 2.5rem;
+      position: relative;
+
+      .cart_items_count {
+        @include position(absolute, right, top, -20%, -25%);
+        font-size: 1.3rem;
+        color: $clr_txt2;
+        background-color: $bg_sub;
+        border-radius: 50%;
+        padding: 0px 4px 2px;
+      }
+    }
+  }
+}
