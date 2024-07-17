@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+$fnt_main: 'Raleway', sans-serif;
+$bg_main: #fff;
+$bg_sub: #000;
+$clr_acc: #5ece78;
+$clr_txt: #1d1f22;
+$clr_txt2: #fff;
+$trans_fast: 0.2s;
+$trans_mid: 0.4s;
+$trans_slow: 0.6s;
+
+@mixin biTranslate($x_val, $y_val) {
+  transform: translate($x_val, $y_val);
+}
+
+@mixin uniTranslate($axis, $val) {
+  transform: translate#{$axis }($val);
+}
+
+@mixin media($unit, $val) {
+  @media screen and (#{$unit}-width: $val) {
+    @content;
+  }
+}
+
+@mixin mediaRange($unit1, $val1, $unit2, $val2) {
+  @media screen and (#{$unit1}-width: $val1) and (#{$unit2}-width: $val2) {
+    @content;
+  }
+}
+
+@mixin position($type, $x, $y, $x_val, $y_val) {
+  position: $type;
+  #{$x}: $x_val;
+  #{$y}: $y_val;
+}
+
+@mixin overlayPos($pos) {
+  position: $pos;
+  inset: 0;
+}
+
+@mixin flex($justify: flex-start, $align: flex-start, $dir: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $dir;
+}
