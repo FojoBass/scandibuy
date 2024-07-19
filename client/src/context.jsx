@@ -1,46 +1,19 @@
 import { Component, createContext } from 'react';
-import { categories as dummyCategories } from './data';
-import { useSearchParams } from 'react-router-dom';
 
 export const AppContext = createContext();
-
-function withSearchParams(WrappedComponent) {
-  return (props) => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    return (
-      <WrappedComponent
-        {...props}
-        searchParams={searchParams}
-        setSearchParams={setSearchParams}
-      />
-    );
-  };
-}
 
 class AppProvider extends Component {
   constructor(props) {
     super(props);
-    const dummyCategs = dummyCategories.map((category) => category.name);
     this.state = {
-      // !Change to the real categories later
-      categories: dummyCategs,
-      currCategory: this.props.searchParams.get('category') ?? dummyCategs[0],
+      currCategory: '',
+      cart: [],
     };
-  }
-
-  componentDidMount() {
-    const { searchParams, setSearchParams } = this.props;
-    if (!searchParams.get('category')) {
-      setSearchParams({ category: this.state.categories[0] });
-      this.setCurrCategory(this.state.categories[0]);
-    } else {
-      this.setCurrCategory(searchParams.get('category'));
-    }
   }
 
   componentDidUpdate(prevProp, prevState) {
     if (prevState !== this.state) {
-      // console.log('Change in context');
+      console.log('Change in context: ', this.state.cart);
     }
   }
 
@@ -48,18 +21,18 @@ class AppProvider extends Component {
     this.setState({ currCategory: category });
   };
 
-  // updateValue = (newValue) => {
-  //   this.setState({ value: newValue });
-  // };
+  setCart = (cart) => {
+    this.setState({ cart: cart });
+  };
 
   render() {
     return (
       <AppContext.Provider
-        // value={{ state: this.state, updateValue: this.updateValue }}
         value={{
           currCategory: this.state.currCategory,
           setCurrCategory: this.setCurrCategory,
-          categories: this.state.categories,
+          setCart: this.setCart,
+          cart: this.state.cart,
         }}
       >
         {this.props.children}
@@ -68,4 +41,4 @@ class AppProvider extends Component {
   }
 }
 
-export default withSearchParams(AppProvider);
+export default AppProvider;

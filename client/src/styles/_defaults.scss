@@ -27,6 +27,21 @@ button {
   transition: all ease $trans_mid;
 }
 
+img {
+  display: block;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  transition: all ease $trans_mid;
+}
+
 .center_sect {
   max-width: 1400px;
   margin-inline: auto;

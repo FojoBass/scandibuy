@@ -292,4 +292,222 @@ export const products = [
     brand: 'Microsoft',
     __typename: 'Product',
   },
+  {
+    id: 'apple-imac-2021',
+    name: 'iMac 2021',
+    inStock: true,
+    gallery: [
+      'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/imac-24-blue-selection-hero-202104?wid=904&hei=840&fmt=jpeg&qlt=80&.v=1617492405000',
+    ],
+    description: 'The new iMac!',
+    category: 'tech',
+    attributes: [
+      {
+        id: 'Capacity',
+        items: [
+          {
+            displayValue: '256GB',
+            value: '256GB',
+            id: '256GB',
+            __typename: 'Attribute',
+          },
+          {
+            displayValue: '512GB',
+            value: '512GB',
+            id: '512GB',
+            __typename: 'Attribute',
+          },
+        ],
+        name: 'Capacity',
+        type: 'text',
+        __typename: 'AttributeSet',
+      },
+      {
+        id: 'With USB 3 ports',
+        items: [
+          {
+            displayValue: 'Yes',
+            value: 'Yes',
+            id: 'Yes',
+            __typename: 'Attribute',
+          },
+          {
+            displayValue: 'No',
+            value: 'No',
+            id: 'No',
+            __typename: 'Attribute',
+          },
+        ],
+        name: 'With USB 3 ports',
+        type: 'text',
+        __typename: 'AttributeSet',
+      },
+      {
+        id: 'Touch ID in keyboard',
+        items: [
+          {
+            displayValue: 'Yes',
+            value: 'Yes',
+            id: 'Yes',
+            __typename: 'Attribute',
+          },
+          {
+            displayValue: 'No',
+            value: 'No',
+            id: 'No',
+            __typename: 'Attribute',
+          },
+        ],
+        name: 'Touch ID in keyboard',
+        type: 'text',
+        __typename: 'AttributeSet',
+      },
+    ],
+    prices: [
+      {
+        amount: 1688.03,
+        currency: {
+          label: 'USD',
+          symbol: '$',
+          __typename: 'Currency',
+        },
+        __typename: 'Price',
+      },
+    ],
+    brand: 'Apple',
+    __typename: 'Product',
+  },
+  {
+    id: 'apple-iphone-12-pro',
+    name: 'iPhone 12 Pro',
+    inStock: true,
+    gallery: [
+      'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-12-pro-family-hero?wid=940&hei=1112&fmt=jpeg&qlt=80&.v=1604021663000',
+    ],
+    description: 'This is iPhone 12. Nothing else to say.',
+    category: 'tech',
+    attributes: [
+      {
+        id: 'Capacity',
+        items: [
+          {
+            displayValue: '512G',
+            value: '512G',
+            id: '512G',
+            __typename: 'Attribute',
+          },
+          {
+            displayValue: '1T',
+            value: '1T',
+            id: '1T',
+            __typename: 'Attribute',
+          },
+        ],
+        name: 'Capacity',
+        type: 'text',
+        __typename: 'AttributeSet',
+      },
+      {
+        id: 'Color',
+        items: [
+          {
+            displayValue: 'Green',
+            value: '#44FF03',
+            id: 'Green',
+            __typename: 'Attribute',
+          },
+          {
+            displayValue: 'Cyan',
+            value: '#03FFF7',
+            id: 'Cyan',
+            __typename: 'Attribute',
+          },
+          {
+            displayValue: 'Blue',
+            value: '#030BFF',
+            id: 'Blue',
+            __typename: 'Attribute',
+          },
+          {
+            displayValue: 'Black',
+            value: '#000000',
+            id: 'Black',
+            __typename: 'Attribute',
+          },
+          {
+            displayValue: 'White',
+            value: '#FFFFFF',
+            id: 'White',
+            __typename: 'Attribute',
+          },
+        ],
+        name: 'Color',
+        type: 'swatch',
+        __typename: 'AttributeSet',
+      },
+    ],
+    prices: [
+      {
+        amount: 1000.76,
+        currency: {
+          label: 'USD',
+          symbol: '$',
+          __typename: 'Currency',
+        },
+        __typename: 'Price',
+      },
+    ],
+    brand: 'Apple',
+    __typename: 'Product',
+  },
+  {
+    id: 'apple-airpods-pro',
+    name: 'AirPods Pro',
+    inStock: false,
+    gallery: [
+      'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MWP22?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1591634795000',
+    ],
+    description:
+      '\n<h3>Magic like you’ve never heard</h3>\n<p>AirPods Pro have been designed to deliver Active Noise Cancellation for immersive sound, Transparency mode so you can hear your surroundings, and a customizable fit for all-day comfort. Just like AirPods, AirPods Pro connect magically to your iPhone or Apple Watch. And they’re ready to use right out of the case.\n\n<h3>Active Noise Cancellation</h3>\n<p>Incredibly light noise-cancelling headphones, AirPods Pro block out your environment so you can focus on what you’re listening to. AirPods Pro use two microphones, an outward-facing microphone and an inward-facing microphone, to create superior noise cancellation. By continuously adapting to the geometry of your ear and the fit of the ear tips, Active Noise Cancellation silences the world to keep you fully tuned in to your music, podcasts, and calls.\n\n<h3>Transparency mode</h3>\n<p>Switch to Transparency mode and AirPods Pro let the outside sound in, allowing you to hear and connect to your surroundings. Outward- and inward-facing microphones enable AirPods Pro to undo the sound-isolating effect of the silicone tips so things sound and feel natural, like when you’re talking to people around you.</p>\n\n<h3>All-new design</h3>\n<p>AirPods Pro offer a more customizable fit with three sizes of flexible silicone tips to choose from. With an internal taper, they conform to the shape of your ear, securing your AirPods Pro in place and creating an exceptional seal for superior noise cancellation.</p>\n\n<h3>Amazing audio quality</h3>\n<p>A custom-built high-excursion, low-distortion driver delivers powerful bass. A superefficient high dynamic range amplifier produces pure, incredibly clear sound while also extending battery life. And Adaptive EQ automatically tunes music to suit the shape of your ear for a rich, consistent listening experience.</p>\n\n<h3>Even more magical</h3>\n<p>The Apple-designed H1 chip delivers incredibly low audio latency. A force sensor on the stem makes it easy to control music and calls and switch between Active Noise Cancellation and Transparency mode. Announce Messages with Siri gives you the option to have Siri read your messages through your AirPods. And with Audio Sharing, you and a friend can share the same audio stream on two sets of AirPods — so you can play a game, watch a movie, or listen to a song together.</p>\n',
+    category: 'tech',
+    attributes: [],
+    prices: [
+      {
+        amount: 300.23,
+        currency: {
+          label: 'USD',
+          symbol: '$',
+          __typename: 'Currency',
+        },
+        __typename: 'Price',
+      },
+    ],
+    brand: 'Apple',
+    __typename: 'Product',
+  },
+  {
+    id: 'apple-airtag',
+    name: 'AirTag',
+    inStock: true,
+    gallery: [
+      'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airtag-double-select-202104?wid=445&hei=370&fmt=jpeg&qlt=95&.v=1617761672000',
+    ],
+    description:
+      '\n<h1>Lose your knack for losing things.</h1>\n<p>AirTag is an easy way to keep track of your stuff. Attach one to your keys, slip another one in your backpack. And just like that, they’re on your radar in the Find My app. AirTag has your back.</p>\n',
+    category: 'tech',
+    attributes: [],
+    prices: [
+      {
+        amount: 120.57,
+        currency: {
+          label: 'USD',
+          symbol: '$',
+          __typename: 'Currency',
+        },
+        __typename: 'Price',
+      },
+    ],
+    brand: 'Apple',
+    __typename: 'Product',
+  },
 ];

@@ -1,0 +1,106 @@
+@use './config' as *;
+
+#products {
+  .center_sect {
+    h2 {
+      text-transform: capitalize;
+      font-weight: normal;
+      padding-block: 40px;
+    }
+
+    .products_wrapper {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 50px 30px;
+      padding-bottom: 50px;
+      transition: all ease $trans_mid;
+
+      .product_card {
+        padding: 10px;
+
+        &.disable {
+          .img_wrapper {
+            img {
+              filter: grayscale(100);
+              opacity: 0.5;
+            }
+          }
+
+          .stock_info {
+            opacity: 1 !important;
+            word-spacing: 1rem;
+            letter-spacing: 0.1rem;
+          }
+
+          .name {
+            opacity: 0.5;
+          }
+
+          .price {
+            opacity: 0.5;
+          }
+
+          .quick_shop_btn {
+            display: none;
+            z-index: 3;
+          }
+        }
+
+        &:hover {
+          box-shadow: 0 0 20px #c5c5c541;
+
+          .quick_shop_btn {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+          }
+        }
+
+        .img_wrapper {
+          aspect-ratio: 4/3;
+          position: relative;
+
+          img {
+            object-position: 0px -20px;
+          }
+
+          .stock_info {
+            @include position(absolute, left, top, 50%, 50%);
+            @include biTranslate(-50%, -50%);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            color: #b6b6b6;
+            opacity: 0;
+          }
+
+          .quick_shop_btn {
+            @include position(absolute, right, bottom, 0, 0);
+            @include biTranslate(-50%, 50%);
+            border-radius: 50%;
+            background-color: $clr_acc;
+            color: $clr_txt2;
+            font-size: 2.5rem;
+            padding: 10px;
+            transition: all ease $trans_mid;
+            opacity: 0;
+            pointer-events: none;
+
+            svg {
+              display: block;
+              pointer-events: none;
+            }
+          }
+        }
+
+        .name {
+          margin-top: 20px;
+        }
+
+        .price {
+          margin-top: 5px;
+          font-weight: bold;
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}

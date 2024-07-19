@@ -3,6 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import { PiHandbagSimpleFill } from 'react-icons/pi';
 import { IoCartOutline } from 'react-icons/io5';
 import { AppContext } from '../context';
+import { categories as dummyCategories } from '../data';
+import Cart from './cartOverlay/Cart';
 
 function withSearchParams(WrappedComponent) {
   return (props) => {
@@ -20,38 +22,41 @@ function withSearchParams(WrappedComponent) {
 class Header extends Component {
   constructor(props) {
     super(props);
+    const dummyCategs = dummyCategories.map((category) => category.name);
+
     this.state = {
-      categories: this.context.categories,
-      currCategory: this.context.currCategory,
+      // !Change to the real categories later
+      categories: dummyCategs,
+      currCategory: this.props.searchParams.get('category') ?? dummyCategs[0],
     };
   }
 
   static contextType = AppContext;
 
-  // componentDidMount() {
-  //   const { searchParams, setSearchParams } = this.props;
-  //   const { setCurrCategory } = this.context;
-  //   if (!searchParams.get('category')) {
-  //     setSearchParams({ category: this.state.categories[0] });
-  //     setCurrCategory(this.state.categories[0]);
-  //   } else {
-  //     setCurrCategory(searchParams.get('category'));
-  //   }
+  componentDidMount() {
+    const { searchParams, setSearchParams } = this.props;
+    const { setCurrCategory } = this.context;
+    if (!searchParams.get('category')) {
+      setSearchParams({ category: this.state.categories[0] });
+      setCurrCategory(this.state.categories[0]);
+    } else {
+      setCurrCategory(searchParams.get('category'));
+    }
 
-  //   this.prevContext = this.context;
-  // }
+    this.prevContext = this.context;
+  }
 
   componentDidUpdate(prevProps, prevState) {
     // *Handle SearchParams Changed
-    // if (
-    //   prevProps.searchParams.get('category') !==
-    //   this.props.searchParams.get('category')
-    // ) {
-    //   this.setState({ currCategory: this.props.searchParams.get('category') });
-    // }
-    // if (prevState.currCategory !== this.state.currCategory) {
-    //   this.context.setCurrCategory(this.state.currCategory);
-    // }
+    if (
+      prevProps.searchParams.get('category') !==
+      this.props.searchParams.get('category')
+    ) {
+      this.setState({ currCategory: this.props.searchParams.get('category') });
+    }
+    if (prevState.currCategory !== this.state.currCategory) {
+      this.context.setCurrCategory(this.state.currCategory);
+    }
   }
 
   handleParams = (category) => {
@@ -62,8 +67,8 @@ class Header extends Component {
 
   render() {
     const categParams = this.context.currCategory;
-    console.log('Categories: ', this.context.categories);
-    console.log('Current Categ: ', this.context.currCategory);
+    // console.log('Categories: ', this.context.categories);
+    // console.log('Current Categ: ', this.context.currCategory);
 
     return (
       <header id='header'>
@@ -91,12 +96,14 @@ class Header extends Component {
             <PiHandbagSimpleFill />
           </span>
 
-          <button className='cart_btn'>
+          <button className='cart_btn' data-testid='cart-btn'>
             <IoCartOutline />
 
             <span className='cart_items_count'>5</span>
           </button>
         </div>
+
+        <Cart />
       </header>
     );
   }
