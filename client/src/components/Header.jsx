@@ -67,8 +67,10 @@ class Header extends Component {
 
   render() {
     const categParams = this.context.currCategory;
-    // console.log('Categories: ', this.context.categories);
-    // console.log('Current Categ: ', this.context.currCategory);
+    const { cart, setIsCartOpen, isCartOpen } = this.context;
+    const cartCount = cart.reduce((acc, item) => {
+      return acc + item.orderInfo.qty;
+    }, 0);
 
     return (
       <header id='header'>
@@ -96,10 +98,16 @@ class Header extends Component {
             <PiHandbagSimpleFill />
           </span>
 
-          <button className='cart_btn' data-testid='cart-btn'>
+          <button
+            className='cart_btn'
+            data-testid='cart-btn'
+            onClick={() => setIsCartOpen(!isCartOpen)}
+          >
             <IoCartOutline />
 
-            <span className='cart_items_count'>5</span>
+            {cart.length >= 1 && (
+              <span className='cart_items_count'>{cartCount}</span>
+            )}
           </button>
         </div>
 

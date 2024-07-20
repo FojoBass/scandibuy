@@ -87,6 +87,7 @@ class Products extends Component {
               color: getAttibute('color', undefined, product, true),
               imgUrl: product.gallery[0],
             },
+            id: Math.random(),
           };
           modCart = [...this.context.cart, cartItem];
         }

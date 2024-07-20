@@ -25,7 +25,7 @@ class App extends Component {
       createRoutesFromElements(
         <Route path='/' element={<Root />} errorElement={<Error />}>
           <Route index element={<Products />} />
-          <Route path='/:id' element={<SingleProduct />} />
+          <Route path='product/:id' element={<SingleProduct />} />
         </Route>
       )
     );

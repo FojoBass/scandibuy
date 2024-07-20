@@ -8,12 +8,13 @@ class AppProvider extends Component {
     this.state = {
       currCategory: '',
       cart: [],
+      isCartOpen: false,
     };
   }
 
   componentDidUpdate(prevProp, prevState) {
     if (prevState !== this.state) {
-      console.log('Change in context: ', this.state.cart);
+      console.log('Change in context: ', this.state.isCartOpen);
     }
   }
 
@@ -25,6 +26,10 @@ class AppProvider extends Component {
     this.setState({ cart: cart });
   };
 
+  setIsCartOpen = (val) => {
+    this.setState({ isCartOpen: val });
+  };
+
   render() {
     return (
       <AppContext.Provider
@@ -33,6 +38,8 @@ class AppProvider extends Component {
           setCurrCategory: this.setCurrCategory,
           setCart: this.setCart,
           cart: this.state.cart,
+          isCartOpen: this.state.isCartOpen,
+          setIsCartOpen: this.setIsCartOpen,
         }}
       >
         {this.props.children}

@@ -4,7 +4,7 @@
   position: sticky;
   top: 0;
   z-index: 5;
-  background-color: $bg_main;
+  // background-color: $bg_main;
 
   svg {
     display: block;
@@ -12,6 +12,10 @@
 
   .center_sect {
     @include flex(space-between, center);
+    background-color: $bg_main;
+    max-width: unset;
+    width: 100%;
+    padding-inline: 70px;
 
     .categories {
       @include flex(flex-start, center);
@@ -47,7 +51,9 @@
         color: $clr_txt2;
         background-color: $bg_sub;
         border-radius: 50%;
-        padding: 0px 4px 2px;
+        width: 18px;
+        aspect-ratio: 1/1;
+        @include flex(center, center);
       }
     }
   }
