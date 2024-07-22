@@ -10,6 +10,7 @@ final class DbQueries
 
  public const GET_ALL_PRODUCTS = 'select * from products';
  public const GET_PRODUCT = 'select * from products where id = :id';
+ public const GET_CATEGORY_PRODUCTS = 'select * from products where category = :category';
 
  public const GET_ATTRIBUTES = 'select * from attributes where product_id = :product_id';
 

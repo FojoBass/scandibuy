@@ -42,6 +42,14 @@ class QueryType extends ObjectType
      ],
      "resolve" => fn ($rootValue, array $args) => OutputResolver::resolver([ProductModel::class, 'get'], [$args["id"]])
     ],
+    "categProduct" => [
+     "type" => Type::listOf(TypeRegistry::getType(ProductType::class)),
+     "description" => "This returns products of same category",
+     "args" => [
+      "categ" => Type::nonNull(Type::string())
+     ],
+     "resolve" => fn ($rootValue, array $args) => OutputResolver::resolver([ProductModel::class, "get"], [$args["categ"]], true)
+    ],
     "orders" => [
      "type" => Type::listOf(TypeRegistry::getType(OrderType::class)),
      "description" => "This returns all orders",

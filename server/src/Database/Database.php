@@ -44,11 +44,12 @@ class Database
   }
  }
 
- protected static function queryData(string $query, array $params): array
+ protected static function queryData(string $query, array $params, bool $isArrayReturn = false): array
  {
   try {
    self::checkInstance();
-   return self::$instance->query($query, $params)->fetch();
+
+   return  $isArrayReturn ? self::$instance->query($query, $params)->fetchAll() : self::$instance->query($query, $params)->fetch();
   } catch (Throwable $e) {
    Logger::error($e);
   }
