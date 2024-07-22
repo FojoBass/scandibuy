@@ -19,7 +19,7 @@
     @include position(absolute, right, top, 70px, 50px);
     background-color: $bg_main;
     padding: 30px 20px;
-    min-width: 200px;
+    width: 500px;
 
     header {
       @include flex(flex-start, center);
@@ -31,15 +31,15 @@
       padding-block: 20px;
       @include flex(flex-start, flex-start, column);
       gap: 30px;
-      width: 300px;
+      width: 100%;
       max-height: 500px;
       overflow-y: auto;
 
       .cart_item {
         display: grid;
-        grid-template-columns: 1fr auto 1fr;
+        grid-template-columns: 2fr auto 1fr;
         width: 100%;
-        grid-template-rows: 130px;
+        // grid-template-rows: 130px;
         gap: 20px;
 
         .item_info {
@@ -61,16 +61,16 @@
             margin-bottom: 5px;
           }
 
-          .size {
+          .attr {
             .wrapper {
               @include flex();
               gap: 5px;
 
-              .size_opt {
-                font-size: 1.3rem;
+              .attr_opt {
+                font-size: 1rem;
                 border: 1px solid $bg_sub;
-                width: 20px;
-                height: 20px;
+                width: 40px;
+                height: 25px;
                 @include flex(center, center);
 
                 &.active {
@@ -81,7 +81,7 @@
             }
           }
 
-          .color {
+          .clr_attr {
             .wrapper {
               @include flex();
               align-items: center;
@@ -120,11 +120,15 @@
         }
 
         .img_wrapper {
-          max-height: 100%;
+          height: 100%;
+          background-color: #d5d5d523;
+          @include flex(center, center);
+          padding-inline: 2px;
+
           img {
             display: block;
-            object-position: 0px 0px;
-            // object-fit: contain;
+            // object-position: 0px 0px;
+            object-fit: contain;
           }
         }
       }

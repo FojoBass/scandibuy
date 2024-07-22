@@ -13,3 +13,44 @@ export const getAttibute = (attrId, attrItemId, product, isDefault = false) => {
     );
   return attributeItem ?? null;
 };
+
+export const productInCart = (cartItemToAdd, cart) => {
+  const { product, orderInfo } = cartItemToAdd;
+
+  const itemInCart =
+    cart.find((item) => item.product.id === product.id) ?? null;
+  if (itemInCart) {
+    const selAttrsToAdd = orderInfo.selectedAttributes;
+    const selAttrsInCart = itemInCart.orderInfo.selectedAttributes;
+
+    if (selAttrsToAdd.length === selAttrsInCart.length) {
+      let checker = false;
+      for (let i = 0; i < selAttrsInCart.length; i++) {
+        const id = selAttrsInCart[i].id;
+        const selAttrToAdd =
+          selAttrsToAdd.find((attr) => attr.id === id)?.selItem ?? null;
+
+        if (!selAttrToAdd) {
+          checker = false;
+          break;
+        } else {
+          console.log(
+            'To Add: ',
+            selAttrToAdd,
+            'In cart: ',
+            selAttrsInCart[i].selItem
+          );
+          if (selAttrToAdd.id !== selAttrsInCart[i].selItem.id) {
+            console.log('NOT SAME');
+            checker = false;
+            break;
+          }
+          console.log('SETS CHECKER TRUE');
+          checker = true;
+        }
+      }
+      return checker ? itemInCart.id : checker;
+    }
+  }
+  return false;
+};

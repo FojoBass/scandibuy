@@ -14,7 +14,7 @@ class AppProvider extends Component {
 
   componentDidUpdate(prevProp, prevState) {
     if (prevState !== this.state) {
-      console.log('Change in context: ', this.state.isCartOpen);
+      console.log('Change in context: ', this.state.currCategory);
     }
   }
 

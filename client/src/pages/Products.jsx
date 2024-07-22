@@ -3,7 +3,7 @@ import { AppContext } from '../context';
 import { products } from '../data';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoCartOutline } from 'react-icons/io5';
-import { getAttibute } from '../helpers';
+import { getAttibute, productInCart } from '../helpers';
 
 const ProductsWrapper = (Component) => {
   const Wrapper = (props) => {
@@ -26,6 +26,11 @@ class Products extends Component {
   }
 
   static contextType = AppContext;
+
+  componentDidMount() {
+    const currCategory = this.context.currCategory;
+    if (currCategory) this.fetchProducts(currCategory);
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.context.currCategory !== this.prevContext?.currCategory) {
@@ -56,42 +61,50 @@ class Products extends Component {
     const { currCategory, setCart } = this.context;
     const { loading, sortedProducts } = this.state;
     const { navigate } = this.props;
+    const skelProducts = [1, 2, 3, 4, 5, 6];
 
     const handleLinkClick = (e) => {
       e.preventDefault();
       if (e.target.classList.contains('quick_shop_btn')) {
         const id = e.currentTarget.id;
-        let modCart = [];
-        const inCart = this.context.cart.some(
-          ({ product }) => product.id === id
-        );
-        if (inCart) {
-          modCart = [...this.context.cart];
+
+        let modCart = this.context.cart;
+
+        const product = sortedProducts.find((prod) => prod.id === id);
+        const selectedAttributes = product.attributes.map((attr) => ({
+          id: attr.id,
+          selItem: attr.items[0],
+        }));
+        const cartItem = {
+          product,
+          orderInfo: {
+            qty: 1,
+            name: product.name,
+            price: `${product.prices[0].currency.symbol}${product.prices[0].amount}`,
+            selectedAttributes,
+            imgUrl: product.gallery[0],
+            attributes: product.attributes,
+          },
+          id: Math.random(),
+        };
+
+        const cartItemId = productInCart(cartItem, this.context.cart);
+
+        if (cartItemId) {
           modCart = modCart.map((item) =>
-            item.product.id === id
+            item.id === cartItemId
               ? {
                   ...item,
-                  orderInfo: { ...item.orderInfo, qty: item.orderInfo.qty + 1 },
+                  orderInfo: {
+                    ...item.orderInfo,
+                    qty: item.orderInfo.qty + 1,
+                  },
                 }
               : item
           );
-        } else {
-          const product = sortedProducts.find((prod) => prod.id === id);
-          const cartItem = {
-            product,
-            orderInfo: {
-              qty: 1,
-              name: product.name,
-              price: `${product.prices[0].currency.symbol}${product.prices[0].amount}`,
-              size: getAttibute('size', undefined, product, true),
-              color: getAttibute('color', undefined, product, true),
-              imgUrl: product.gallery[0],
-            },
-            id: Math.random(),
-          };
-          modCart = [...this.context.cart, cartItem];
-        }
-        this.context.setCart(modCart);
+        } else modCart.push(cartItem);
+
+        setCart(modCart);
       } else {
         navigate(e.currentTarget.href.split('/').slice(3).join('/'));
       }
@@ -107,7 +120,14 @@ class Products extends Component {
           )}
           <div className='products_wrapper'>
             {loading ? (
-              'Loading...'
+              skelProducts.map((item) => (
+                <div className='product_card skel' key={item}>
+                  <div className='img_wrapper skel_anim2'></div>
+
+                  <p className='name skel_anim2'></p>
+                  <p className='price skel_anim2'></p>
+                </div>
+              ))
             ) : sortedProducts.length ? (
               sortedProducts.map(({ name, id, gallery, prices, inStock }) => (
                 <Link

@@ -19,7 +19,7 @@ class CartItem extends Component {
   render() {
     const {
       item: {
-        orderInfo: { color, imgUrl, name, price, qty, size },
+        orderInfo: { attributes, imgUrl, name, price, qty, selectedAttributes },
         product,
         id,
       },
@@ -56,67 +56,58 @@ class CartItem extends Component {
       setCart(modCart);
     };
 
+    const checkAttribute = (attrId, item) => {
+      let checker = false;
+      selectedAttributes.forEach((attr) => {
+        if (attr.id === attrId) checker = item.id === attr.selItem.id;
+      });
+      return checker;
+    };
+
     return (
       <div className='cart_item'>
         <div className='item_info'>
           <p className='name'>{name}</p>
           <h6 className='price'>{price}</h6>
-          {size && (
-            <div className='size'>
-              <p>Size:</p>
-              <div className='wrapper' data-testid='cart-item-attribute-size'>
-                {product.attributes
-                  .find((attr) => attr.id.toLowerCase() === 'size')
-                  .items.map((em) => (
+          {attributes.map((attr) =>
+            attr.id.toLowerCase() === 'color' ? (
+              <div className='clr_attr' key={attr.id}>
+                <p>{attr.name}:</p>
+                <div className='wrapper'>
+                  {attr.items.map((item, index) => (
                     <span
-                      className={`size_opt ${
-                        em.value === size.value ? 'active' : ''
-                      }`}
-                      key={em.value}
-                      data-testid={`cart-item-attribute-size-${
-                        em.value === size.value
-                          ? `${em.displayValue
-                              .toLowerCase()
-                              .split(' ')
-                              .join('-')}-selected`
-                          : em.displayValue.toLowerCase().split(' ').join('-')
-                      }`}
-                    >
-                      {em.value}
-                    </span>
-                  ))}
-              </div>
-            </div>
-          )}
-          {color && (
-            <div className='color'>
-              <p>Color:</p>
-              <div className='wrapper' data-testid='cart-item-attribute-color'>
-                {product.attributes
-                  .find((attr) => attr.id.toLowerCase() === 'color')
-                  .items.map((em) => (
-                    <span
+                      // className={`clr_opt ${index === 0 ? 'active' : ''}`}
                       className={`clr_opt ${
-                        em.value === color.value ? 'active' : ''
+                        checkAttribute(attr.id, item) ? 'active' : ''
                       }`}
-                      key={em.value}
-                      data-testid={`cart-item-attribute-color-${
-                        em.value === color.value
-                          ? `${em.displayValue
-                              .toLowerCase()
-                              .split(' ')
-                              .join('-')}-selected`
-                          : em.displayValue.toLowerCase().split(' ').join('-')
-                      }`}
+                      key={item.value}
                     >
                       <span
                         className='clr_carrier'
-                        style={{ backgroundColor: em.value }}
+                        style={{ backgroundColor: item.value }}
                       ></span>
                     </span>
                   ))}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className='attr' key={attr.id}>
+                <p>{attr.name}:</p>
+                <div className='wrapper'>
+                  {attr.items.map((item, index) => (
+                    <span
+                      // className={`attr_opt ${index === 0 ? 'active' : ''}`}
+                      className={`attr_opt ${
+                        checkAttribute(attr.id, item) ? 'active' : ''
+                      }`}
+                      key={item.value}
+                    >
+                      {item.value}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )
           )}
         </div>
 
