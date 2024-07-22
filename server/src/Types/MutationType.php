@@ -21,13 +21,13 @@ class MutationType extends ObjectType
    'name' => 'Mutation',
    'fields' => [
     "createOrder" => [
-     "type" => Type::listOf(TypeRegistry::getType(OrderType::class)),
+     "type" => Type::string(),
      "args" => [
       "orders" => [
        "type" => Type::listOf(TypeRegistry::getType(InputOrderType::class))
       ]
      ],
-     "resolve" => static function ($rootValue, array $args): array {
+     "resolve" => static function ($rootValue, array $args): string {
       try {
        return OrderController::createOrder($args["orders"]);
       } catch (Throwable $e) {

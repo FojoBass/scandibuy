@@ -6,6 +6,7 @@ namespace src\Types\Input;
 
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type;
+use src\Utils\TypeRegistry;
 
 class OrderType extends InputObjectType
 {
@@ -16,10 +17,8 @@ class OrderType extends InputObjectType
    "description" => "Type for input of user order",
    "fields" => [
     "product_id" => Type::nonNull(Type::id()),
-    "size" => Type::nonNull(Type::int()),
-    "color" => Type::nonNull(Type::string()),
+    "attributes" => Type::nonNull(TypeRegistry::getJsonType()),
     "qty" => Type::nonNull(Type::int()),
-    "userId" => Type::nonNull(Type::id())
    ]
   ]);
  }

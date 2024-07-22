@@ -9,14 +9,14 @@ use src\Utils\Logger;
 
 class OrderController
 {
- public static function createOrder(array $orders): array
+ public static function createOrder(array $orders): string
  {
-  $userId = $orders[0]["userId"];
   foreach ($orders as $order) {
    $id = uniqid();
    $order["id"] = $id;
+   $order["attributes"] = json_encode($order["attributes"]);
    OrderModel::create($order);
   }
-  return OrderModel::getUserAll(0, ["userId" => $userId]);
+  return "Order created";
  }
 }

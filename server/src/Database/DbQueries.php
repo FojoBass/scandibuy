@@ -14,7 +14,7 @@ final class DbQueries
 
  public const GET_ATTRIBUTES = 'select * from attributes where product_id = :product_id';
 
- public const CREATE_ORDER = 'insert into orders (id, product_id, size, color, qty, userId) values (:id, :product_id, :size, :color, :qty, :userId)';
+ public const CREATE_ORDER = 'insert into orders (id, product_id, attributes, qty) values (:id, :product_id, :attributes, :qty)';
  public const GET_ALL_USER_ORDERS = 'select * from orders where userId = :userId';
  public const GET_ORDER = 'select * from orders where userId = :userId';
  public const GET_ALL_ORDERS = 'select * from orders';

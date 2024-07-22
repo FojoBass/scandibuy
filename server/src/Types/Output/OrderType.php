@@ -18,10 +18,8 @@ class OrderType extends ObjectType
    "name" => "OrderOutput",
    "fields" => [
     "id" => Type::nonNull(Type::id()),
-    "size" => Type::nonNull(Type::int()),
-    "color" => Type::nonNull(Type::string()),
     "qty" => Type::nonNull(Type::int()),
-    "userId" => Type::nonNull(Type::id()),
+    "attibutes" => Type::nonNull(Type::string()),
     "product" => [
      "type" => TypeRegistry::getType(ProductType::class),
      "resolve" => fn (array $order) => OutputResolver::resolver([ProductModel::class, "get"], [$order["product_id"]])
