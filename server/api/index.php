@@ -11,7 +11,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 new Database(Config::getConfig(), $_ENV["DB_USER"], $_ENV["DB_PWD"]);
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
-  $r->post('/graphql', [src\controllers\GraphQL::class, 'handle']);
+  $r->post('/graphql', [src\Controllers\GraphQL::class, 'handle']);
 });
 
 $routeInfo = $dispatcher->dispatch(
