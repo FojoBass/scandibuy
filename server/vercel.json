@@ -4,5 +4,5 @@
       "runtime": "vercel-php@0.5.2"
     }
   },
-  "rewrites": [{ "source": "/(.*)", "destination": "public/index.php" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "api/index.php" }]
 }
