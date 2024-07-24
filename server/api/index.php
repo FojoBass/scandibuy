@@ -1,13 +1,12 @@
 <?php
 
-use Dotenv\Dotenv;
 use src\Config\Config;
 use src\Database\Database;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+// $dotenv = Dotenv::createImmutable(__DIR__);
+// $dotenv->load();
 
 new Database(Config::getConfig(), $_ENV["DB_USER"], $_ENV["DB_PWD"]);
 
