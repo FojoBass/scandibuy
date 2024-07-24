@@ -10,6 +10,7 @@
     "DB_PORT": "18182",
     "DB_NAME": "scandibuydb",
     "DB_PWD": "AVNS_JzyWQ8n7RituHnH8k5Z",
-    "DB_USER": "avnadmin"
+    "DB_USER": "avnadmin",
+    "VERCEL_FORCE_NO_BUILD_CACHE": "1"
   }
 }
