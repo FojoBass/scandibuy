@@ -87,7 +87,7 @@ class CartItem extends Component {
                       key={item.value}
                       data-testid={`cart-item-attribute ${kebabFormatter(
                         attr.name
-                      )}-${kebabFormatter(item.displayValue)}${
+                      )}-${item.displayValue}${
                         checkAttribute(attr.id, item) ? '-selected' : ''
                       }`}
                     >
@@ -115,7 +115,7 @@ class CartItem extends Component {
                       key={item.value}
                       data-testid={`cart-item-attribute ${kebabFormatter(
                         attr.name
-                      )}-${kebabFormatter(item.displayValue)}${
+                      )}-${item.displayValue}${
                         checkAttribute(attr.id, item) ? '-selected' : ''
                       }`}
                     >

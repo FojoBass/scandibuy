@@ -52,7 +52,10 @@ class Cart extends Component {
     };
 
     return (
-      <section className={`cart_sect ${isCartOpen ? 'active' : ''}`}>
+      <section
+        className={`cart_sect ${isCartOpen ? 'active' : ''}`}
+        data-testid='cart-overlay'
+      >
         <div className='cart_wrapper'>
           <header>
             <h3>My Bag, </h3>
@@ -81,6 +84,7 @@ class Cart extends Component {
               className='order_btn'
               disabled={!cart.length || orderLoading}
               onClick={handleOrder}
+              data-testid='place-order-btn'
             >
               place order
             </button>

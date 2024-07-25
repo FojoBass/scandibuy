@@ -35,6 +35,7 @@ class SingleProduct extends Component {
       loading: true,
       selectedImg: 0,
       selectedAttributes: [],
+      isAddToCart: false,
     };
     this.prevContext = this.context;
   }
@@ -44,20 +45,6 @@ class SingleProduct extends Component {
   componentDidMount() {
     this.fetchProduct(this.props.params.id);
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.product !== this.state.product) {
-  //     this.props.setSearchParams(
-  //       {
-  //         category:
-  //           this.context.currCategory === 'all'
-  //             ? this.context.currCategory
-  //             : this.state.product.category,
-  //       },
-  //       { replace: true }
-  //     );
-  //   }
-  // }
 
   fetchProduct = async (id) => {
     let fetchedProduct = {};
@@ -78,12 +65,12 @@ class SingleProduct extends Component {
       this.setState({ loading: false });
     }
 
-    fetchedProduct.attributes.forEach((item) => {
-      const modItem = { id: item.id, selItem: item.items[0] };
-      modAttrs.push(modItem);
-    });
+    // fetchedProduct.attributes.forEach((item) => {
+    //   const modItem = { id: item.id, selItem: item.items[0] };
+    //   modAttrs.push(modItem);
+    // });
 
-    this.setState({ selectedAttributes: modAttrs });
+    // this.setState({ selectedAttributes: modAttrs });
   };
 
   setSelectedImg = (index) => {
@@ -91,14 +78,34 @@ class SingleProduct extends Component {
   };
 
   setSelectedAttributes = (id, item) => {
-    const selAttr = this.state.selectedAttributes.map((attr) =>
-      attr.id === id ? { ...attr, selItem: item } : attr
-    );
+    const isAttr = this.state.selectedAttributes.some((attr) => attr.id === id);
+    const selAttr = isAttr
+      ? this.state.selectedAttributes.map((attr) =>
+          attr.id === id ? { ...attr, selItem: item } : attr
+        )
+      : [...this.state.selectedAttributes, { id: id, selItem: item }];
     this.setState({ selectedAttributes: selAttr });
+
+    this.checkSelAttributes(selAttr);
+  };
+
+  checkSelAttributes = (selAttrs) => {
+    const {
+      product: { attributes },
+    } = this.state;
+    let isAttrSel = true;
+
+    for (let i = 0; i < attributes.length; i++) {
+      isAttrSel = selAttrs.some((selAttr) => selAttr.id === attributes[i].id);
+      if (!isAttrSel) break;
+    }
+
+    this.setState({ isAddToCart: isAttrSel });
   };
 
   render() {
-    const { product, loading, selectedImg, selectedAttributes } = this.state;
+    const { product, loading, selectedImg, selectedAttributes, isAddToCart } =
+      this.state;
     const currImg = product?.gallery.find(
       (_, ind) => ind === this.state.selectedImg
     );
@@ -157,6 +164,14 @@ class SingleProduct extends Component {
 
     const dummyProd = {
       gallery: [1, 2, 3],
+    };
+
+    const checkAttribute = (attrId, item) => {
+      let checker = false;
+      selectedAttributes.forEach((attr) => {
+        if (attr.id === attrId) checker = item.id === attr.selItem.id;
+      });
+      return checker;
     };
 
     return (
@@ -248,6 +263,11 @@ class SingleProduct extends Component {
                               onClick={() =>
                                 this.setSelectedAttributes(attr.id, item)
                               }
+                              data-testid={`product-attribute-${kebabFormatter(
+                                attr.name
+                              )}-${item.displayValue}${
+                                checkAttribute(attr.id, item) ? '-selected' : ''
+                              }`}
                             >
                               <span
                                 className='clr'
@@ -269,6 +289,11 @@ class SingleProduct extends Component {
                               onClick={() =>
                                 this.setSelectedAttributes(attr.id, item)
                               }
+                              data-testid={`product-attribute-${kebabFormatter(
+                                attr.name
+                              )}-${item.displayValue}${
+                                checkAttribute(attr.id, item) ? '-selected' : ''
+                              }`}
                             >
                               {item.value}
                             </button>
@@ -287,17 +312,14 @@ class SingleProduct extends Component {
                   </div>
                 </div>
 
-                {product.inStock ? (
-                  <button
-                    className='cart_add'
-                    onClick={handleAddCart}
-                    data-testid='add-to-cart'
-                  >
-                    add to cart
-                  </button>
-                ) : (
-                  ''
-                )}
+                <button
+                  className='cart_add'
+                  onClick={handleAddCart}
+                  data-testid='add-to-cart'
+                  disabled={!product.inStock || !isAddToCart}
+                >
+                  ADD TO CART
+                </button>
 
                 <div className='description' data-testid='product-description'>
                   {parse(desc)}

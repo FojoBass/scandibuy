@@ -169,6 +169,12 @@
         font-weight: 600;
         font-size: 1.5rem;
         margin-bottom: 10px;
+
+        &:disabled {
+          opacity: 0.5;
+          filter: grayscale(100%);
+          cursor: not-allowed;
+        }
       }
 
       .description {

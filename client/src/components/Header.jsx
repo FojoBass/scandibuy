@@ -121,7 +121,12 @@ class Header extends Component {
             <IoCartOutline />
 
             {cart.length >= 1 && (
-              <span className='cart_items_count'>{cartCount}</span>
+              <span
+                className='cart_items_count'
+                data-testid='cart-count-bubble'
+              >
+                {cartCount}
+              </span>
             )}
           </button>
         </div>

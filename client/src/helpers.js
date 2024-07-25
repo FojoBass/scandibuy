@@ -47,5 +47,7 @@ export const productInCart = (cartItemToAdd, cart) => {
   return false;
 };
 
-export const kebabFormatter = (value) =>
-  value.toLowerCase().split(' ').join('-');
+export const kebabFormatter = (value, isLower = true) =>
+  isLower
+    ? value.toLowerCase().split(' ').join('-')
+    : value.split(' ').join('-');
