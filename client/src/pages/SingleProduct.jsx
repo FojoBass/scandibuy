@@ -202,7 +202,10 @@ class SingleProduct extends Component {
           ) : (
             <>
               <div className='left_side'>
-                <div className='img_selector_wrapper'>
+                <div
+                  className='img_selector_wrapper'
+                  data-testid='product-gallery'
+                >
                   {product.gallery.map((url, index) => (
                     <button
                       className={`img_selector ${
@@ -210,7 +213,6 @@ class SingleProduct extends Component {
                       }`}
                       key={url}
                       onClick={() => this.setSelectedImg(index)}
-                      data-testid='product-gallery'
                     >
                       <img src={url} alt={product.name} />
                     </button>
@@ -265,7 +267,7 @@ class SingleProduct extends Component {
                               }
                               data-testid={`product-attribute-${kebabFormatter(
                                 attr.name
-                              )}-${item.displayValue}${
+                              )}-${item.value}${
                                 checkAttribute(attr.id, item) ? '-selected' : ''
                               }`}
                             >
@@ -291,7 +293,7 @@ class SingleProduct extends Component {
                               }
                               data-testid={`product-attribute-${kebabFormatter(
                                 attr.name
-                              )}-${item.displayValue}${
+                              )}-${item.value}${
                                 checkAttribute(attr.id, item) ? '-selected' : ''
                               }`}
                             >
