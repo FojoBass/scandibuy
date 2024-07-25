@@ -88,12 +88,16 @@ class Header extends Component {
         <div className='center_sect'>
           <div className='categories'>
             {this.state.categories.map((category) => (
-              <button
+              <a
+                href={`/${category}`}
                 className={`categ_btn ${
                   categParams === category ? 'active' : ''
                 }`}
                 key={category}
-                onClick={() => this.handleParams(category)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.handleParams(category);
+                }}
                 data-testid={
                   categParams === category
                     ? 'active-category-link'
@@ -101,7 +105,7 @@ class Header extends Component {
                 }
               >
                 {category}
-              </button>
+              </a>
             ))}
           </div>
 
