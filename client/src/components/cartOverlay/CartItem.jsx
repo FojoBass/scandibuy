@@ -85,7 +85,7 @@ class CartItem extends Component {
                         checkAttribute(attr.id, item) ? 'active' : ''
                       }`}
                       key={item.value}
-                      data-testid={`cart-item-attribute ${kebabFormatter(
+                      data-testid={`cart-item-attribute-${kebabFormatter(
                         attr.name
                       )}-${item.displayValue}${
                         checkAttribute(attr.id, item) ? '-selected' : ''
@@ -113,7 +113,7 @@ class CartItem extends Component {
                         checkAttribute(attr.id, item) ? 'active' : ''
                       }`}
                       key={item.value}
-                      data-testid={`cart-item-attribute ${kebabFormatter(
+                      data-testid={`cart-item-attribute-${kebabFormatter(
                         attr.name
                       )}-${item.displayValue}${
                         checkAttribute(attr.id, item) ? '-selected' : ''
