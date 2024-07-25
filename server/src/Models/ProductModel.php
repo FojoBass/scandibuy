@@ -14,6 +14,8 @@ class ProductModel extends AbstractModel
   return static::queryAllData(DbQueries::GET_ALL_PRODUCTS, $returnMod);
  }
 
+
+
  public static function get(string $key, bool $isArrayReturn = false): array
  {
   return $isArrayReturn ? static::queryData(DbQueries::GET_CATEGORY_PRODUCTS, ["category" => $key], $isArrayReturn) : static::queryData(DbQueries::GET_PRODUCT, ["id" => $key]);
