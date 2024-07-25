@@ -267,7 +267,7 @@ class SingleProduct extends Component {
                               }
                               data-testid={`product-attribute-${kebabFormatter(
                                 attr.name
-                              )}-${item.value}${
+                              )}-${item.displayValue}${
                                 checkAttribute(attr.id, item) ? '-selected' : ''
                               }`}
                             >
@@ -293,7 +293,7 @@ class SingleProduct extends Component {
                               }
                               data-testid={`product-attribute-${kebabFormatter(
                                 attr.name
-                              )}-${item.value}${
+                              )}-${item.displayValue}${
                                 checkAttribute(attr.id, item) ? '-selected' : ''
                               }`}
                             >
