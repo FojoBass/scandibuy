@@ -8,6 +8,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // $dotenv = Dotenv::createImmutable(__DIR__);
 // $dotenv->load();
 
+
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: *");
+
 new Database(Config::getConfig(), $_ENV["DB_USER"], $_ENV["DB_PWD"]);
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
@@ -33,8 +39,3 @@ switch ($routeInfo[0]) {
     echo $handler($vars);
     break;
 }
-
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Headers: *");
