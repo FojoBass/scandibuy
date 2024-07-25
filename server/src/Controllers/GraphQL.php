@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace src\controllers;
+namespace src\Controllers;
 
 use GraphQL\GraphQL as GraphQLGraphQL;
 use GraphQL\Type\Schema;

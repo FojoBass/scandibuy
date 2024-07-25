@@ -6,9 +6,8 @@ namespace src\Types;
 
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
-use src\controllers\OrderController;
+use src\Controllers\OrderController;
 use src\Types\Input\OrderType as InputOrderType;
-use src\Types\Output\OrderType;
 use src\Utils\Logger;
 use src\Utils\TypeRegistry;
 use Throwable;

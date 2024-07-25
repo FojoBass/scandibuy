@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace src\controllers;
+namespace src\Controllers;
 
 use src\Models\OrderModel;
 use src\Utils\Logger;
