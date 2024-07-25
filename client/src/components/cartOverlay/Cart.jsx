@@ -51,7 +51,7 @@ class Cart extends Component {
       }
     };
 
-    return (
+    return isCartOpen ? (
       <section
         className={`cart_sect ${isCartOpen ? 'active' : ''}`}
         data-testid='cart-overlay'
@@ -91,6 +91,8 @@ class Cart extends Component {
           </footer>
         </div>
       </section>
+    ) : (
+      ''
     );
   }
 }
