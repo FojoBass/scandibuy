@@ -144,7 +144,7 @@ class Products extends Component {
             ) : products.length ? (
               products.map(({ name, id, gallery, prices, inStock }) => (
                 <Link
-                  to={`/product/${id}`}
+                  to={`/product/${id}?=${currCategory}`}
                   className={`product_card ${!inStock ? 'disable' : ''}`}
                   key={id}
                   data-testid={`product-${kebabFormatter(name)}`}

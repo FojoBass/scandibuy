@@ -57,7 +57,8 @@ class Header extends Component {
       prevProps.searchParams.get('category') !==
       this.props.searchParams.get('category')
     ) {
-      this.setState({ currCategory: this.props.searchParams.get('category') });
+      const categ = this.props.searchParams.get('category');
+      categ && this.setState({ currCategory: categ });
     }
     if (prevState.currCategory !== this.state.currCategory) {
       this.context.setCurrCategory(this.state.currCategory);

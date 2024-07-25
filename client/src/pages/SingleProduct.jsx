@@ -45,19 +45,19 @@ class SingleProduct extends Component {
     this.fetchProduct(this.props.params.id);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.product !== this.state.product) {
-      this.props.setSearchParams(
-        {
-          category:
-            this.context.currCategory === 'all'
-              ? this.context.currCategory
-              : this.state.product.category,
-        },
-        { replace: true }
-      );
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.product !== this.state.product) {
+  //     this.props.setSearchParams(
+  //       {
+  //         category:
+  //           this.context.currCategory === 'all'
+  //             ? this.context.currCategory
+  //             : this.state.product.category,
+  //       },
+  //       { replace: true }
+  //     );
+  //   }
+  // }
 
   fetchProduct = async (id) => {
     let fetchedProduct = {};
