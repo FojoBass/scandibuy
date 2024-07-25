@@ -34,18 +34,10 @@ export const productInCart = (cartItemToAdd, cart) => {
           checker = false;
           break;
         } else {
-          console.log(
-            'To Add: ',
-            selAttrToAdd,
-            'In cart: ',
-            selAttrsInCart[i].selItem
-          );
           if (selAttrToAdd.id !== selAttrsInCart[i].selItem.id) {
-            console.log('NOT SAME');
             checker = false;
             break;
           }
-          console.log('SETS CHECKER TRUE');
           checker = true;
         }
       }
@@ -54,3 +46,6 @@ export const productInCart = (cartItemToAdd, cart) => {
   }
   return false;
 };
+
+export const kebabFormatter = (value) =>
+  value.toLowerCase().split(' ').join('_');

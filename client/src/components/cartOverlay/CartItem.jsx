@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { AppContext } from '../../context';
+import { kebabFormatter } from '../../helpers';
 
 class CartItem extends Component {
   constructor(props) {
@@ -71,16 +72,24 @@ class CartItem extends Component {
           <h6 className='price'>{price}</h6>
           {attributes.map((attr) =>
             attr.id.toLowerCase() === 'color' ? (
-              <div className='clr_attr' key={attr.id}>
+              <div
+                className='clr_attr'
+                key={attr.id}
+                data-testid={`cart-item-attribute-${kebabFormatter(attr.name)}`}
+              >
                 <p>{attr.name}:</p>
                 <div className='wrapper'>
                   {attr.items.map((item, index) => (
                     <span
-                      // className={`clr_opt ${index === 0 ? 'active' : ''}`}
                       className={`clr_opt ${
                         checkAttribute(attr.id, item) ? 'active' : ''
                       }`}
                       key={item.value}
+                      data-testid={`cart-item-attribute ${kebabFormatter(
+                        attr.name
+                      )}-${kebabFormatter(item.displayValue)}${
+                        checkAttribute(attr.id, item) ? '-selected' : ''
+                      }`}
                     >
                       <span
                         className='clr_carrier'
@@ -91,16 +100,24 @@ class CartItem extends Component {
                 </div>
               </div>
             ) : (
-              <div className='attr' key={attr.id}>
+              <div
+                className='attr'
+                key={attr.id}
+                data-testid={`cart-item-attribute-${kebabFormatter(attr.name)}`}
+              >
                 <p>{attr.name}:</p>
                 <div className='wrapper'>
                   {attr.items.map((item, index) => (
                     <span
-                      // className={`attr_opt ${index === 0 ? 'active' : ''}`}
                       className={`attr_opt ${
                         checkAttribute(attr.id, item) ? 'active' : ''
                       }`}
                       key={item.value}
+                      data-testid={`cart-item-attribute ${kebabFormatter(
+                        attr.name
+                      )}-${kebabFormatter(item.displayValue)}${
+                        checkAttribute(attr.id, item) ? '-selected' : ''
+                      }`}
                     >
                       {item.value}
                     </span>

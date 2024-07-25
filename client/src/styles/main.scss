@@ -4,3 +4,31 @@
 @use './products';
 @use './cart';
 @use './single_product';
+
+.Toastify__toast--error {
+  color: #e74c3c !important;
+}
+
+.Toastify__toast--success {
+  color: #07bc0c !important;
+}
+
+.Toastify__toast--info {
+  color: #3498db !important;
+}
+
+.Toastify__toast--warning {
+  color: #f1c40f !important;
+}
+
+.Toastify__toast-container {
+  font-size: 1.5rem !important;
+  padding: 10px !important;
+  position: fixed !important;
+  transform: translateX(-50%) scale(0.9) !important;
+}
+
+.Toastify__toast-body {
+  margin: 0 !important;
+  text-align: center !important;
+}

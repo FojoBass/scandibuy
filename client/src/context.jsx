@@ -12,9 +12,15 @@ class AppProvider extends Component {
     };
   }
 
+  componentDidMount() {
+    let storageCart = sessionStorage.getItem('scandibuy_cart') ?? null;
+    storageCart = storageCart ? JSON.parse(storageCart) : [];
+    this.setCart(storageCart);
+  }
+
   componentDidUpdate(prevProp, prevState) {
     if (prevState !== this.state) {
-      console.log('Change in context: ', this.state.currCategory);
+      sessionStorage.setItem('scandibuy_cart', JSON.stringify(this.state.cart));
     }
   }
 

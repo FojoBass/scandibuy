@@ -3,7 +3,9 @@ import { AppContext } from '../context';
 import { products } from '../data';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoCartOutline } from 'react-icons/io5';
-import { getAttibute, productInCart } from '../helpers';
+import { kebabFormatter, productInCart } from '../helpers';
+import fetchFunc from '../services/config';
+import { AllProducts, CategoryProducts } from '../services/queries';
 
 const ProductsWrapper = (Component) => {
   const Wrapper = (props) => {
@@ -17,7 +19,6 @@ class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sortedProducts: [],
       loading: true,
       products: [],
     };
@@ -41,25 +42,36 @@ class Products extends Component {
   }
 
   fetchProducts = async (category) => {
-    // !DUMMY
-    const allProducts = [...products];
-    this.setState({ products: allProducts }, () => {
-      this.setSortedProducts(category, allProducts);
-    });
-  };
+    let allProducts = [];
+    try {
+      this.setState({ loading: true });
+      if (category === 'all') {
+        const result = await fetchFunc(AllProducts);
+        allProducts = result.products;
+      } else {
+        const result = await fetchFunc(CategoryProducts, { categ: category });
+        console.log(result);
+        allProducts = result.categProduct;
+      }
 
-  setSortedProducts = (category, products) => {
-    const sortedProducts =
-      category === 'all'
-        ? [...products]
-        : products.filter((product) => product.category === category);
+      allProducts = allProducts.map((product) => ({
+        ...product,
+        gallery: JSON.parse(product.gallery),
+        prices: JSON.parse(product.prices),
+        attributes: [...JSON.parse(product.attributes.attributes)],
+      }));
 
-    this.setState({ sortedProducts, loading: false });
+      this.setState({ products: allProducts });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
     const { currCategory, setCart } = this.context;
-    const { loading, sortedProducts } = this.state;
+    const { loading, products } = this.state;
     const { navigate } = this.props;
     const skelProducts = [1, 2, 3, 4, 5, 6];
 
@@ -70,7 +82,8 @@ class Products extends Component {
 
         let modCart = this.context.cart;
 
-        const product = sortedProducts.find((prod) => prod.id === id);
+        const product = products.find((prod) => prod.id === id);
+
         const selectedAttributes = product.attributes.map((attr) => ({
           id: attr.id,
           selItem: attr.items[0],
@@ -128,16 +141,13 @@ class Products extends Component {
                   <p className='price skel_anim2'></p>
                 </div>
               ))
-            ) : sortedProducts.length ? (
-              sortedProducts.map(({ name, id, gallery, prices, inStock }) => (
+            ) : products.length ? (
+              products.map(({ name, id, gallery, prices, inStock }) => (
                 <Link
                   to={`/product/${id}`}
                   className={`product_card ${!inStock ? 'disable' : ''}`}
                   key={id}
-                  data-testid={`product-${name
-                    .toLowerCase()
-                    .split(' ')
-                    .join('-')}`}
+                  data-testid={`product-${kebabFormatter(name)}`}
                   onClick={handleLinkClick}
                   id={id}
                 >

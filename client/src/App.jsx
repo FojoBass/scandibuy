@@ -11,6 +11,8 @@ import Error from './pages/Error';
 import Products from './pages/Products';
 import SingleProduct from './pages/SingleProduct';
 import Header from './components/Header';
+import { ToastContainer, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class App extends Component {
   constructor(props) {
@@ -39,6 +41,13 @@ class Root extends Component {
   render() {
     return (
       <div>
+        <ToastContainer
+          position='top-center'
+          closeButton={false}
+          transition={Zoom}
+          autoClose={3000}
+          hideProgressBar={true}
+        />
         <Header />
         <Outlet />
       </div>

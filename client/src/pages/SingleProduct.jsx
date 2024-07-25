@@ -8,7 +8,9 @@ import {
 } from 'react-icons/md';
 import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
-import { productInCart } from '../helpers';
+import { kebabFormatter, productInCart } from '../helpers';
+import fetchFunc from '../services/config';
+import { GetProduct } from '../services/queries';
 
 function withSearchParams(WrappedComponent) {
   return (props) => {
@@ -58,9 +60,25 @@ class SingleProduct extends Component {
   }
 
   fetchProduct = async (id) => {
-    const fetchedProduct = products.find((item) => item.id === id);
-    this.setState({ product: fetchedProduct, loading: false });
+    let fetchedProduct = {};
     const modAttrs = [];
+    try {
+      this.setState({ loading: true });
+      const result = await fetchFunc(GetProduct, { id });
+      fetchedProduct = {
+        ...result.product,
+        gallery: JSON.parse(result.product.gallery),
+        prices: JSON.parse(result.product.prices),
+        attributes: [...JSON.parse(result.product.attributes.attributes)],
+      };
+      this.setState({ product: fetchedProduct });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.setState({ loading: false });
+    }
+
+    console.log(fetchedProduct);
 
     fetchedProduct.attributes.forEach((item) => {
       const modItem = { id: item.id, selItem: item.items[0] };
@@ -179,6 +197,7 @@ class SingleProduct extends Component {
                       }`}
                       key={url}
                       onClick={() => this.setSelectedImg(index)}
+                      data-testid='product-gallery'
                     >
                       <img src={url} alt={product.name} />
                     </button>
@@ -208,7 +227,13 @@ class SingleProduct extends Component {
 
                 <div className='attributes_wrapper'>
                   {product.attributes.map((attr) => (
-                    <div className='attribute' key={attr.id}>
+                    <div
+                      className='attribute'
+                      key={attr.id}
+                      data-testid={`product-attribute-${kebabFormatter(
+                        attr.name
+                      )}`}
+                    >
                       <h4 className='title'>{attr.name}</h4>
                       <div className='attr_opts'>
                         {attr.items.map((item) =>
@@ -265,12 +290,18 @@ class SingleProduct extends Component {
                 </div>
 
                 {product.inStock && (
-                  <button className='cart_add' onClick={handleAddCart}>
+                  <button
+                    className='cart_add'
+                    onClick={handleAddCart}
+                    data-testid='add-to-cart'
+                  >
                     add to cart
                   </button>
                 )}
 
-                <div className='description'>{parse(desc)}</div>
+                <div className='description' data-testid='product-description'>
+                  {parse(desc)}
+                </div>
               </div>
             </>
           )}

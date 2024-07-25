@@ -1,18 +1,24 @@
 import { Component } from 'react';
 import { AppContext } from '../../context';
 import CartItem from './CartItem';
+import { toast } from 'react-toastify';
+import fetchFunc from '../../services/config';
+import { CreateOrder } from '../../services/queries';
 
 class Cart extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      orderLoading: false,
+    };
     this.prevContext = this.context;
   }
 
   static contextType = AppContext;
 
   render() {
-    const { cart, isCartOpen } = this.context;
+    const { cart, isCartOpen, setCart, setIsCartOpen } = this.context;
+    const { orderLoading } = this.state;
     const total = cart.reduce((acc, item) => {
       const price = Number(item.orderInfo.price.slice(1));
       const qty = item.orderInfo.qty;
@@ -23,6 +29,28 @@ class Cart extends Component {
     const totalQty = cart.reduce((acc, item) => {
       return acc + item.orderInfo.qty;
     }, 0);
+
+    const handleOrder = async () => {
+      try {
+        this.setState({ orderLoading: true });
+        const orders = cart.map((item) => ({
+          product_id: item.product.id,
+          qty: item.orderInfo.qty,
+          attributes: item.orderInfo.selectedAttributes,
+        }));
+
+        console.log(orders);
+        await fetchFunc(CreateOrder, { orders });
+
+        toast.success('Order created.');
+        setCart([]);
+        setIsCartOpen(false);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        this.setState({ orderLoading: false });
+      }
+    };
 
     return (
       <section className={`cart_sect ${isCartOpen ? 'active' : ''}`}>
@@ -50,7 +78,11 @@ class Cart extends Component {
               </span>
             </div>
 
-            <button className='order_btn' disabled={!cart.length}>
+            <button
+              className='order_btn'
+              disabled={!cart.length || orderLoading}
+              onClick={handleOrder}
+            >
               place order
             </button>
           </footer>
