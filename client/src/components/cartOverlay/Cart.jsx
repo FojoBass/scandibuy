@@ -39,7 +39,6 @@ class Cart extends Component {
           attributes: item.orderInfo.selectedAttributes,
         }));
 
-        console.log(orders);
         await fetchFunc(CreateOrder, { orders });
 
         toast.success('Order created.');

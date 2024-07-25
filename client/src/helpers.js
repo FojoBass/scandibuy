@@ -48,4 +48,4 @@ export const productInCart = (cartItemToAdd, cart) => {
 };
 
 export const kebabFormatter = (value) =>
-  value.toLowerCase().split(' ').join('_');
+  value.toLowerCase().split(' ').join('-');

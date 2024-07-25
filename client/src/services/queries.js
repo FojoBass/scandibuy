@@ -2,7 +2,7 @@ const AllProducts = `query GetProducts{products{name, prices, id, gallery, inSto
 
 const AllCategories = `query Categories{categories}`;
 
-const GetProduct = `query Product($id: ID!){product(id: $id){id, name, inStock, gallery, prices, attributes{ attributes}}}`;
+const GetProduct = `query Product($id: ID!){product(id: $id){id, name, inStock, gallery, prices,description, attributes{ attributes}}}`;
 
 const CreateOrder = `mutation CreateOrder($orders: [OrderInput!]!){createOrder(orders: $orders)}`;
 

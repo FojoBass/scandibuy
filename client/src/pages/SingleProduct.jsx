@@ -78,8 +78,6 @@ class SingleProduct extends Component {
       this.setState({ loading: false });
     }
 
-    console.log(fetchedProduct);
-
     fetchedProduct.attributes.forEach((item) => {
       const modItem = { id: item.id, selItem: item.items[0] };
       modAttrs.push(modItem);
@@ -289,7 +287,7 @@ class SingleProduct extends Component {
                   </div>
                 </div>
 
-                {product.inStock && (
+                {product.inStock ? (
                   <button
                     className='cart_add'
                     onClick={handleAddCart}
@@ -297,6 +295,8 @@ class SingleProduct extends Component {
                   >
                     add to cart
                   </button>
+                ) : (
+                  ''
                 )}
 
                 <div className='description' data-testid='product-description'>

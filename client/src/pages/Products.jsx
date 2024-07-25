@@ -50,7 +50,6 @@ class Products extends Component {
         allProducts = result.products;
       } else {
         const result = await fetchFunc(CategoryProducts, { categ: category });
-        console.log(result);
         allProducts = result.categProduct;
       }
 
