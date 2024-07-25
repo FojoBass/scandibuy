@@ -34,22 +34,24 @@ class Header extends Component {
   static contextType = AppContext;
 
   componentDidMount() {
-    const { searchParams, setSearchParams } = this.props;
-    const { setCurrCategory } = this.context;
-
     this.fetchCategories();
-
-    if (!searchParams.get('category')) {
-      setSearchParams({ category: this.state.categories[0] });
-      setCurrCategory(this.state.categories[0]);
-    } else {
-      setCurrCategory(searchParams.get('category'));
-    }
 
     this.prevContext = this.context;
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { searchParams, setSearchParams } = this.props;
+    const { setCurrCategory } = this.context;
+
+    if (prevState.categories.length !== this.state.categories.length) {
+      if (!searchParams.get('category')) {
+        setSearchParams({ category: this.state.categories[0] });
+        setCurrCategory(this.state.categories[0]);
+      } else {
+        setCurrCategory(searchParams.get('category'));
+      }
+    }
+
     // *Handle SearchParams Changed
     if (
       prevProps.searchParams.get('category') !==

@@ -35,7 +35,8 @@ class Products extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.context.currCategory !== this.prevContext?.currCategory) {
-      this.fetchProducts(this.context.currCategory);
+      this.context.currCategory &&
+        this.fetchProducts(this.context.currCategory);
 
       this.prevContext = this.context;
     }
