@@ -23,7 +23,6 @@ class ProductType extends ObjectType
     'brand' => Type::nonNull(Type::string()),
     'gallery' => Type::nonNull(Type::string()),
     "prices" => Type::nonNull(Type::string()),
-    // "attribute"=>
    ]
   ]);
  }
