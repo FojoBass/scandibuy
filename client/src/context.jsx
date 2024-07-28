@@ -12,17 +12,17 @@ class AppProvider extends Component {
     };
   }
 
-  componentDidMount() {
-    let storageCart = sessionStorage.getItem('scandibuy_cart') ?? null;
-    storageCart = storageCart ? JSON.parse(storageCart) : [];
-    this.setCart(storageCart);
-  }
+  // componentDidMount() {
+  //   let storageCart = sessionStorage.getItem('scandibuy_cart') ?? null;
+  //   storageCart = storageCart ? JSON.parse(storageCart) : [];
+  //   this.setCart(storageCart);
+  // }
 
-  componentDidUpdate(prevProp, prevState) {
-    if (prevState !== this.state) {
-      sessionStorage.setItem('scandibuy_cart', JSON.stringify(this.state.cart));
-    }
-  }
+  // componentDidUpdate(prevProp, prevState) {
+  //   if (prevState !== this.state) {
+  //     sessionStorage.setItem('scandibuy_cart', JSON.stringify(this.state.cart));
+  //   }
+  // }
 
   setCurrCategory = (category) => {
     this.setState({ currCategory: category });
