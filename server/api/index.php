@@ -2,12 +2,12 @@
 
 use App\Config\Config;
 use App\Database\Database;
-use Dotenv\Dotenv;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+// *$dotenv commented out because of vercel
+// $dotenv = Dotenv::createImmutable(__DIR__);
+// $dotenv->load();
 
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
