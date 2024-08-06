@@ -2,7 +2,7 @@
   "name": "admin/server",
   "autoload": {
     "psr-4": {
-      "src\\": "src/"
+      "App\\": "src/"
     }
   },
   "authors": [

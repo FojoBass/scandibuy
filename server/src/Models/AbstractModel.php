@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace src\Models;
+namespace App\Models;
 
-use src\Database\Database;
+use App\Database\Database;
 
 abstract class AbstractModel extends Database
 {
- abstract public static function getAll(int $returnMod = 0): array;
+    abstract public static function getAll(int $returnMod = 0): array;
 
- abstract public static function get(string $key): array;
+    abstract public static function get(string $key): array;
 }

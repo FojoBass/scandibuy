@@ -2,21 +2,20 @@
 
 declare(strict_types=1);
 
-namespace src\Controllers;
+namespace App\Controllers;
 
-use src\Models\OrderModel;
-use src\Utils\Logger;
+use App\Models\OrderModel;
 
 class OrderController
 {
- public static function createOrder(array $orders): string
- {
-  foreach ($orders as $order) {
-   $id = uniqid();
-   $order["id"] = $id;
-   $order["attributes"] = json_encode($order["attributes"]);
-   OrderModel::create($order);
-  }
-  return "Order created";
- }
+    public static function createOrder(array $orders): string
+    {
+        foreach ($orders as $order) {
+            $id = uniqid();
+            $order["id"] = $id;
+            $order["attributes"] = json_encode($order["attributes"]);
+            OrderModel::create($order);
+        }
+        return "Order created";
+    }
 }
