@@ -1,34 +1,57 @@
-@use './config' as *;
-@use './defaults';
-@use './header';
-@use './products';
-@use './cart';
-@use './single_product';
+@use "./config" as *;
+@use "./defaults";
+@use "./header";
+@use "./products";
+@use "./cart";
+@use "./single_product";
 
 .Toastify__toast--error {
-  color: #e74c3c !important;
+    color: #e74c3c !important;
 }
 
 .Toastify__toast--success {
-  color: #07bc0c !important;
+    color: #07bc0c !important;
 }
 
 .Toastify__toast--info {
-  color: #3498db !important;
+    color: #3498db !important;
 }
 
 .Toastify__toast--warning {
-  color: #f1c40f !important;
+    color: #f1c40f !important;
 }
 
 .Toastify__toast-container {
-  font-size: 1.5rem !important;
-  padding: 10px !important;
-  position: fixed !important;
-  transform: translateX(-50%) scale(0.9) !important;
+    font-size: 1.5rem !important;
+    padding: 10px !important;
+    position: fixed !important;
+    transform: translateX(-50%) scale(0.9) !important;
 }
 
 .Toastify__toast-body {
-  margin: 0 !important;
-  text-align: center !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+.error_sect {
+    height: 70vh;
+    @include flex(center, center, column);
+    grid-column: span 3;
+
+    h1 {
+        font-size: 5rem;
+        margin-bottom: 10px;
+    }
+
+    a {
+        margin-top: 30px;
+        display: inline-block;
+        color: $clr_acc;
+        font-weight: 600;
+        text-decoration: underline;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }

@@ -1,140 +1,110 @@
-import { Component } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { PiHandbagSimpleFill } from 'react-icons/pi';
-import { IoCartOutline } from 'react-icons/io5';
-import { AppContext } from '../context';
-import { categories, categories as dummyCategories } from '../data';
-import Cart from './cartOverlay/Cart';
-import fetchFunc from '../services/config';
-import { AllCategories } from '../services/queries';
-
-function withSearchParams(WrappedComponent) {
-  return (props) => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    return (
-      <WrappedComponent
-        {...props}
-        searchParams={searchParams}
-        setSearchParams={setSearchParams}
-      />
-    );
-  };
-}
+import { Component } from "react";
+import { PiHandbagSimpleFill } from "react-icons/pi";
+import { IoCartOutline } from "react-icons/io5";
+import { AppContext } from "../context";
+import Cart from "./cartOverlay/Cart";
+import fetchFunc from "../services/config";
+import { AllCategories } from "../services/queries";
+import { withRouter } from "../withRouter";
+import { Link } from "react-router-dom";
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      categories: [],
-      currCategory: this.props.searchParams.get('category') ?? categories[0],
+        this.state = {
+            categories: [],
+        };
+        this.prevContext = this.context;
+    }
+
+    static contextType = AppContext;
+
+    componentDidMount() {
+        this.fetchCategories();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { params } = this.props;
+        const { setCurrentCategory } = this.context;
+
+        if (prevState.categories.length !== this.state.categories.length) {
+            if (!params.category) {
+                setCurrentCategory(this.state.categories[0]);
+            } else {
+                setCurrentCategory(params.category);
+            }
+        }
+
+        // *Handle Params Change
+        if (prevProps.params.category !== this.props.params.category) {
+            const recentCategory = this.props.params.category;
+            recentCategory && this.context.setCurrentCategory(recentCategory);
+        }
+
+        if (this.prevContext !== this.context) this.prevContext = this.context;
+    }
+
+    fetchCategories = async () => {
+        const result = await fetchFunc(AllCategories);
+        this.setState({ categories: result.categories });
     };
-  }
 
-  static contextType = AppContext;
+    render() {
+        const currentCategory = this.context.currentCategory;
+        const { cart, setIsCartOpen, isCartOpen } = this.context;
+        const cartCount = cart.reduce((acc, item) => {
+            return acc + item.orderInfo.qty;
+        }, 0);
 
-  componentDidMount() {
-    this.fetchCategories();
+        return (
+            <header id="header">
+                <div className="center_sect">
+                    <div className="categories">
+                        {this.state.categories.map((category) => (
+                            <Link
+                                className={`categ_btn ${
+                                    currentCategory === category ? "active" : ""
+                                }`}
+                                to={`/c/${category}`}
+                                data-testid={
+                                    currentCategory === category
+                                        ? "active-category-link"
+                                        : "category-link "
+                                }
+                                key={category}
+                            >
+                                {category}
+                            </Link>
+                        ))}
+                    </div>
 
-    this.prevContext = this.context;
-  }
+                    <span className="bag_icon">
+                        <PiHandbagSimpleFill />
+                    </span>
 
-  componentDidUpdate(prevProps, prevState) {
-    const { searchParams, setSearchParams } = this.props;
-    const { setCurrCategory } = this.context;
+                    <button
+                        className="cart_btn"
+                        data-testid="cart-btn"
+                        onClick={() => setIsCartOpen(!isCartOpen)}
+                    >
+                        <IoCartOutline />
 
-    if (prevState.categories.length !== this.state.categories.length) {
-      if (!searchParams.get('category')) {
-        setSearchParams({ category: this.state.categories[0] });
-        setCurrCategory(this.state.categories[0]);
-      } else {
-        setCurrCategory(searchParams.get('category'));
-      }
+                        {cart.length >= 1 && (
+                            <span
+                                className="cart_items_count"
+                                data-testid="cart-count-bubble"
+                            >
+                                {cartCount}
+                            </span>
+                        )}
+                    </button>
+                </div>
+
+                <Cart />
+            </header>
+        );
     }
-
-    // *Handle SearchParams Changed
-    if (
-      prevProps.searchParams.get('category') !==
-      this.props.searchParams.get('category')
-    ) {
-      const categ = this.props.searchParams.get('category');
-      categ && this.setState({ currCategory: categ });
-    }
-    if (prevState.currCategory !== this.state.currCategory) {
-      this.context.setCurrCategory(this.state.currCategory);
-    }
-  }
-
-  handleParams = (category) => {
-    this.props.setSearchParams({
-      category,
-    });
-  };
-
-  fetchCategories = async () => {
-    const result = await fetchFunc(AllCategories);
-    this.setState({ categories: result.categories });
-  };
-
-  render() {
-    const categParams = this.context.currCategory;
-    const { cart, setIsCartOpen, isCartOpen } = this.context;
-    const cartCount = cart.reduce((acc, item) => {
-      return acc + item.orderInfo.qty;
-    }, 0);
-
-    return (
-      <header id='header'>
-        <div className='center_sect'>
-          <div className='categories'>
-            {this.state.categories.map((category) => (
-              <a
-                href={`/${category}`}
-                className={`categ_btn ${
-                  categParams === category ? 'active' : ''
-                }`}
-                key={category}
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.handleParams(category);
-                }}
-                data-testid={
-                  categParams === category
-                    ? 'active-category-link'
-                    : 'category-link '
-                }
-              >
-                {category}
-              </a>
-            ))}
-          </div>
-
-          <span className='bag_icon'>
-            <PiHandbagSimpleFill />
-          </span>
-
-          <button
-            className='cart_btn'
-            data-testid='cart-btn'
-            onClick={() => setIsCartOpen(!isCartOpen)}
-          >
-            <IoCartOutline />
-
-            {cart.length >= 1 && (
-              <span
-                className='cart_items_count'
-                data-testid='cart-count-bubble'
-              >
-                {cartCount}
-              </span>
-            )}
-          </button>
-        </div>
-
-        <Cart />
-      </header>
-    );
-  }
 }
 
-export default withSearchParams(Header);
+export default withRouter(Header);

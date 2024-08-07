@@ -1,19 +1,14 @@
 import { Component } from "react";
 import { AppContext } from "../context";
-import { products } from "../data";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
-import { kebabFormatter, productInCart } from "../helpers";
+import { kebabFormatter, isProductInCart } from "../helpers";
 import fetchFunc from "../services/config";
 import { AllProducts, CategoryProducts } from "../services/queries";
+import { withRouter } from "../withRouter";
+import Error from "./Error";
 
-const ProductsWrapper = (Component) => {
-    const Wrapper = (props) => {
-        const navigate = useNavigate();
-        return <Component {...props} navigate={navigate} />;
-    };
-    return Wrapper;
-};
+const abortMessage = "fetch canceled";
 
 class Products extends Component {
     constructor(props) {
@@ -24,35 +19,49 @@ class Products extends Component {
         };
 
         this.prevContext = this.context;
+        this.fetchController = null;
     }
 
     static contextType = AppContext;
 
     componentDidMount() {
-        const currCategory = this.context.currCategory;
-        if (currCategory) this.fetchProducts(currCategory);
+        const currentCategory = this.context.currentCategory;
+        if (currentCategory) this.fetchProducts(currentCategory);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.context.currCategory !== this.prevContext?.currCategory) {
-            this.context.currCategory &&
-                this.fetchProducts(this.context.currCategory);
+        if (
+            this.context.currentCategory !== this.prevContext?.currentCategory
+        ) {
+            if (this.context.currentCategory) {
+                if (this.fetchController)
+                    this.fetchController.abort(abortMessage);
+
+                this.fetchController = new AbortController();
+                const signal = this.fetchController.signal;
+                this.fetchProducts(this.context.currentCategory, signal);
+            }
 
             this.prevContext = this.context;
         }
     }
 
-    fetchProducts = async (category) => {
+    fetchProducts = async (category, signal) => {
         let allProducts = [];
+        let isAbort = false;
         try {
             this.setState({ loading: true });
             if (category === "all") {
-                const result = await fetchFunc(AllProducts);
+                const result = await fetchFunc(AllProducts, null, signal);
                 allProducts = result.products;
             } else {
-                const result = await fetchFunc(CategoryProducts, {
-                    categ: category,
-                });
+                const result = await fetchFunc(
+                    CategoryProducts,
+                    {
+                        categ: category,
+                    },
+                    signal
+                );
                 allProducts = result.categProduct;
             }
 
@@ -65,21 +74,22 @@ class Products extends Component {
 
             this.setState({ products: allProducts });
         } catch (err) {
-            console.error(err);
+            if (err === abortMessage) isAbort = true;
         } finally {
-            this.setState({ loading: false });
+            isAbort || this.setState({ loading: false });
+            this.fetchController = null;
+            if (isAbort) isAbort = false;
         }
     };
 
     render() {
-        const { currCategory, setCart } = this.context;
+        const { currentCategory, setCart } = this.context;
         const { loading, products } = this.state;
-        const { navigate } = this.props;
-        const skelProducts = [1, 2, 3, 4, 5, 6];
+        const dummyProducts = [1, 2, 3, 4, 5, 6]; //* This is for skeleton loading
 
         const handleLinkClick = (e) => {
-            e.preventDefault();
             if (e.target.classList.contains("quick_shop_btn")) {
+                e.preventDefault();
                 const id = e.currentTarget.id;
 
                 let modCart = this.context.cart;
@@ -103,7 +113,7 @@ class Products extends Component {
                     id: Math.random(),
                 };
 
-                const cartItemId = productInCart(cartItem, this.context.cart);
+                const cartItemId = isProductInCart(cartItem, this.context.cart);
 
                 if (cartItemId) {
                     modCart = modCart.map((item) =>
@@ -120,22 +130,20 @@ class Products extends Component {
                 } else modCart.push(cartItem);
 
                 setCart(modCart);
-            } else {
-                navigate(e.currentTarget.href.split("/").slice(3).join("/"));
             }
         };
 
         return (
             <section id="products">
                 <div className="center_sect">
-                    {currCategory ? (
-                        <h2>{currCategory}</h2>
+                    {currentCategory ? (
+                        <h2>{currentCategory}</h2>
                     ) : (
                         <h2 className="dummy_head"></h2>
                     )}
                     <div className="products_wrapper">
                         {loading ? (
-                            skelProducts.map((item) => (
+                            dummyProducts.map((item) => (
                                 <div className="product_card skel" key={item}>
                                     <div className="img_wrapper skel_anim2"></div>
 
@@ -147,7 +155,7 @@ class Products extends Component {
                             products.map(
                                 ({ name, id, gallery, prices, inStock }) => (
                                     <Link
-                                        to={`/product/${id}?=${currCategory}`}
+                                        to={`/product/${id}`}
                                         className={`product_card ${
                                             !inStock ? "disable" : ""
                                         }`}
@@ -177,9 +185,9 @@ class Products extends Component {
                                 )
                             )
                         ) : (
-                            <h3 className="error_msg">
-                                Sorry, no Products found!
-                            </h3>
+                            <Error
+                                message={`Category "${currentCategory}" has no products`}
+                            />
                         )}
                     </div>
                 </div>
@@ -188,4 +196,4 @@ class Products extends Component {
     }
 }
 
-export default ProductsWrapper(Products);
+export default withRouter(Products);

@@ -9,9 +9,9 @@ const CreateOrder = `mutation CreateOrder($orders: [OrderInput!]!){createOrder(o
 const CategoryProducts = `query CategProducts($categ: String!){categProduct(categ: $categ){name, prices, id, gallery, inStock, category, attributes {attributes}}}`;
 
 export {
-  AllProducts,
-  AllCategories,
-  CategoryProducts,
-  CreateOrder,
-  GetProduct,
+    AllProducts,
+    AllCategories,
+    CategoryProducts,
+    CreateOrder,
+    GetProduct,
 };

@@ -3,6 +3,7 @@ import { AppContext } from "./context";
 import {
     createBrowserRouter,
     createRoutesFromElements,
+    Navigate,
     Outlet,
     Route,
     RouterProvider,
@@ -26,7 +27,7 @@ class App extends Component {
         const router = createBrowserRouter(
             createRoutesFromElements(
                 <Route path="/" element={<Root />} errorElement={<Error />}>
-                    <Route index element={<></>} />
+                    <Route index element={<Navigate to="c/all" />} />
                     <Route path="c/:category" element={<Products />} />
                     <Route path="product/:id" element={<SingleProduct />} />
                 </Route>

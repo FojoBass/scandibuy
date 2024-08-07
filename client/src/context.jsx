@@ -6,7 +6,7 @@ class AppProvider extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currCategory: "",
+            currentCategory: "",
             cart: [],
             isCartOpen: false,
         };
@@ -27,8 +27,8 @@ class AppProvider extends Component {
         }
     }
 
-    setCurrCategory = (category) => {
-        this.setState({ currCategory: category });
+    setCurrentCategory = (category) => {
+        this.setState({ currentCategory: category });
     };
 
     setCart = (cart) => {
@@ -43,8 +43,8 @@ class AppProvider extends Component {
         return (
             <AppContext.Provider
                 value={{
-                    currCategory: this.state.currCategory,
-                    setCurrCategory: this.setCurrCategory,
+                    currentCategory: this.state.currentCategory,
+                    setCurrentCategory: this.setCurrentCategory,
                     setCart: this.setCart,
                     cart: this.state.cart,
                     isCartOpen: this.state.isCartOpen,

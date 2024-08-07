@@ -1,170 +1,170 @@
-@use './config' as *;
+@use "./config" as *;
 
 .cart_sect {
-  @include position(absolute, left, top, 0, 0);
-  width: 100%;
-  height: 100vh;
-  background-color: #00000059;
-  z-index: -1;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity ease $trans_mid;
+    @include position(absolute, left, top, 0, 0);
+    width: 100%;
+    height: 100vh;
+    background-color: #00000059;
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity ease $trans_mid;
 
-  &.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .cart_wrapper {
-    @include position(absolute, right, top, 70px, 50px);
-    background-color: $bg_main;
-    padding: 30px 20px;
-    width: 500px;
-
-    header {
-      @include flex(flex-start, center);
-      gap: 5px;
-      margin-bottom: 10px;
+    &.active {
+        opacity: 1;
+        pointer-events: all;
     }
 
-    .cart_items_wrapper {
-      padding-block: 20px;
-      @include flex(flex-start, flex-start, column);
-      gap: 30px;
-      width: 100%;
-      max-height: 500px;
-      overflow-y: auto;
+    .cart_wrapper {
+        @include position(absolute, right, top, 70px, 50px);
+        background-color: $bg_main;
+        padding: 30px 20px;
+        width: 500px;
 
-      .cart_item {
-        display: grid;
-        grid-template-columns: 2fr auto 1fr;
-        width: 100%;
-        // grid-template-rows: 130px;
-        gap: 20px;
+        header {
+            @include flex(flex-start, center);
+            gap: 5px;
+            margin-bottom: 10px;
+        }
 
-        .item_info {
-          @include flex();
-          flex-direction: column;
-          justify-content: space-between;
-          gap: 8px;
+        .cart_items_wrapper {
+            padding-block: 20px;
+            @include flex(flex-start, flex-start, column);
+            gap: 30px;
+            width: 100%;
+            max-height: 500px;
+            overflow-y: auto;
 
-          .name {
-            font-size: 1.6rem;
-          }
+            .cart_item {
+                display: grid;
+                grid-template-columns: 2fr auto 1fr;
+                width: 100%;
+                // grid-template-rows: 130px;
+                gap: 20px;
 
-          .price {
-            font-size: 1.5rem;
-          }
+                .item_info {
+                    @include flex();
+                    flex-direction: column;
+                    justify-content: space-between;
+                    gap: 8px;
 
-          p:not(.name) {
-            font-size: 1.6rem;
-            margin-bottom: 5px;
-          }
+                    .name {
+                        font-size: 1.6rem;
+                    }
 
-          .attr {
-            .wrapper {
-              @include flex();
-              gap: 5px;
+                    .price {
+                        font-size: 1.5rem;
+                    }
 
-              .attr_opt {
-                font-size: 1rem;
-                border: 1px solid $bg_sub;
-                width: 40px;
-                height: 25px;
-                @include flex(center, center);
+                    p:not(.name) {
+                        font-size: 1.6rem;
+                        margin-bottom: 5px;
+                    }
 
-                &.active {
-                  background-color: $bg_sub;
-                  color: $bg_main;
+                    .attr {
+                        .wrapper {
+                            @include flex();
+                            gap: 5px;
+
+                            .attr_opt {
+                                font-size: 1rem;
+                                border: 1px solid $bg_sub;
+                                width: 40px;
+                                height: 25px;
+                                @include flex(center, center);
+
+                                &.active {
+                                    background-color: $bg_sub;
+                                    color: $bg_main;
+                                }
+                            }
+                        }
+                    }
+
+                    .clr_attr {
+                        .wrapper {
+                            @include flex();
+                            align-items: center;
+                            gap: 3px;
+                            margin-left: 1px;
+
+                            .clr_opt {
+                                padding: 1px;
+
+                                &.active {
+                                    border: 1px solid $clr_acc;
+                                }
+
+                                .clr_carrier {
+                                    width: 15px;
+                                    aspect-ratio: 1/1;
+                                    padding: 2px;
+                                    display: block;
+                                }
+                            }
+                        }
+                    }
                 }
-              }
+
+                .btns_wrapper {
+                    @include flex(space-between, center, column);
+                    font-size: 1.6rem;
+
+                    .op_btn {
+                        border: 1px solid $bg_sub;
+                        width: 25px;
+                        @include flex(center, center);
+                        height: 20px;
+                        font-size: 2rem;
+                    }
+                }
+
+                .img_wrapper {
+                    height: 100%;
+                    background-color: #d5d5d523;
+                    @include flex(center, center);
+                    padding-inline: 2px;
+
+                    img {
+                        display: block;
+                        // object-position: 0px 0px;
+                        object-fit: contain;
+                    }
+                }
             }
-          }
 
-          .clr_attr {
-            .wrapper {
-              @include flex();
-              align-items: center;
-              gap: 3px;
-              margin-left: 1px;
-
-              .clr_opt {
-                padding: 1px;
-
-                &.active {
-                  border: 1px solid $clr_acc;
-                }
-
-                .clr_carrier {
-                  width: 15px;
-                  aspect-ratio: 1/1;
-                  padding: 2px;
-                  display: block;
-                }
-              }
+            .empty {
+                font-weight: bold;
+                opacity: 0.7;
             }
-          }
         }
 
-        .btns_wrapper {
-          @include flex(space-between, center, column);
-          font-size: 1.6rem;
+        footer {
+            .total {
+                @include flex(space-between, center);
+                font-weight: bold;
+                margin-bottom: 20px;
+                font-size: 1.5rem;
+            }
 
-          .op_btn {
-            border: 1px solid $bg_sub;
-            width: 25px;
-            @include flex(center, center);
-            height: 20px;
-            font-size: 2rem;
-          }
+            .order_btn {
+                text-align: center;
+                background-color: $clr_acc;
+                display: block;
+                width: 100%;
+                color: $clr_txt2;
+                text-transform: uppercase;
+                padding-block: 10px;
+                font-size: 1.2rem;
+                font-weight: 500;
+                letter-spacing: 0.1rem;
+
+                &:disabled {
+                    cursor: not-allowed;
+                    opacity: 0.5;
+                    filter: grayscale(100%);
+                }
+            }
         }
-
-        .img_wrapper {
-          height: 100%;
-          background-color: #d5d5d523;
-          @include flex(center, center);
-          padding-inline: 2px;
-
-          img {
-            display: block;
-            // object-position: 0px 0px;
-            object-fit: contain;
-          }
-        }
-      }
-
-      .empty {
-        font-weight: bold;
-        opacity: 0.7;
-      }
     }
-
-    footer {
-      .total {
-        @include flex(space-between, center);
-        font-weight: bold;
-        margin-bottom: 20px;
-        font-size: 1.5rem;
-      }
-
-      .order_btn {
-        text-align: center;
-        background-color: $clr_acc;
-        display: block;
-        width: 100%;
-        color: $clr_txt2;
-        text-transform: uppercase;
-        padding-block: 10px;
-        font-size: 1.2rem;
-        font-weight: 500;
-        letter-spacing: 0.1rem;
-
-        &:disabled {
-          cursor: not-allowed;
-          opacity: 0.5;
-          filter: grayscale(100%);
-        }
-      }
-    }
-  }
 }

@@ -1,212 +1,231 @@
-@use './config' as *;
+@use "./config" as *;
 
 #single_product {
-  padding-block: 50px;
+    padding-block: 50px;
 
-  .center_sect {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    gap: 60px;
-
-    img,
-    svg {
-      display: block;
-    }
-
-    .left_side {
-      display: grid;
-      grid-template-columns: 1fr 10fr;
-      gap: 20px;
-
-      &.skel {
-        .img_selector {
-          background-color: #d4d4d4;
-          animation: skelAnim2 1s linear infinite;
-        }
-
-        .main_img {
-          background-color: #d4d4d4;
-          height: 70vh;
-          animation: skelAnim2 1s linear infinite;
-        }
-      }
-
-      .img_selector_wrapper {
-        @include flex(flex-start, flex-start, column);
-        gap: 20px;
-
-        .img_selector {
-          height: 100px;
-          width: 100%;
-          border: 1px solid transparent;
-          padding: 3px;
-
-          &:hover {
-            border-color: $clr_txt;
-          }
-
-          &.active {
-            border-color: $clr_acc;
-            pointer-events: none;
-            border-width: 2px;
-          }
-        }
-      }
-
-      .main_img {
-        height: 85vh;
+    .center_sect {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: 60px;
         position: relative;
 
-        img {
-          object-fit: contain;
+        img,
+        svg {
+            display: block;
         }
 
-        button {
-          position: absolute;
-          top: 50%;
-          @include uniTranslate(Y, -50%);
-          background-color: #000;
-          color: $clr_txt2;
-          font-size: 2rem;
-          opacity: 0.5;
-
-          &:hover {
-            opacity: 1;
-          }
-
-          &.prev_btn {
-            left: 30px;
-          }
-
-          &.next_btn {
-            right: 30px;
-          }
-        }
-      }
-    }
-
-    .right_side {
-      @include flex();
-      flex-direction: column;
-      gap: 20px;
-
-      &.skel {
-        .name {
-          height: 25px;
-          width: 70%;
-          background-color: #d4d4d4;
-          animation: skelAnim2 1s linear infinite;
-        }
-
-        .attributes_wrapper {
-          height: 35px;
-          width: 65%;
-          background-color: #d4d4d4;
-          animation: skelAnim2 1s linear infinite;
-        }
-      }
-
-      .name {
-        font-size: 2.3rem;
-        font-weight: 500;
-      }
-
-      .attributes_wrapper {
-        @include flex();
-        flex-direction: column;
-        gap: 20px;
-
-        .attribute {
-          .title {
-            margin-bottom: 7px;
-            text-transform: uppercase;
-          }
-
-          .attr_opts {
-            @include flex();
-            gap: 5px;
-
-            .sel_attr_btn {
-              width: 50px;
-              height: 30px;
-              border: 1px solid $clr_txt;
-              font-size: 1.2rem;
-
-              &.active {
-                background-color: $bg_sub;
-                color: $clr_txt2;
-              }
-            }
-
-            .sel_clr_btn {
-              padding: 1px;
-              border: 1px solid transparent;
-
-              &.active {
-                border-color: $clr_acc;
-              }
-
-              .clr {
-                display: block;
-                width: 25px;
-                height: 20px;
-              }
-            }
-          }
-
-          .price {
+        .back_btn {
+            @include position(absolute, left, top, 0, -40px);
             font-size: 1.5rem;
-          }
+            border: 1px solid $clr_txt;
+            color: $clr_txt;
+            padding: 5px;
+            border-radius: 3px;
+            opacity: 0.5;
+
+            &:hover {
+                opacity: 1;
+                background-color: $clr_txt;
+                color: $clr_txt2;
+            }
         }
-      }
 
-      .cart_add {
-        background-color: $clr_acc;
-        text-transform: uppercase;
-        width: 100%;
-        padding-block: 20px;
-        color: $clr_txt2;
-        font-weight: 600;
-        font-size: 1.5rem;
-        margin-bottom: 10px;
+        .left_side {
+            display: grid;
+            grid-template-columns: 1fr 10fr;
+            gap: 20px;
 
-        &:disabled {
-          opacity: 0.5;
-          filter: grayscale(100%);
-          cursor: not-allowed;
+            &.skel {
+                .img_selector {
+                    background-color: #d4d4d4;
+                    animation: skelAnim2 1s linear infinite;
+                }
+
+                .main_img {
+                    background-color: #d4d4d4;
+                    height: 70vh;
+                    animation: skelAnim2 1s linear infinite;
+                }
+            }
+
+            .img_selector_wrapper {
+                @include flex(flex-start, flex-start, column);
+                gap: 20px;
+
+                .img_selector {
+                    height: 100px;
+                    width: 100%;
+                    border: 1px solid transparent;
+                    padding: 3px;
+
+                    &:hover {
+                        border-color: $clr_txt;
+                    }
+
+                    &.active {
+                        border-color: $clr_acc;
+                        pointer-events: none;
+                        border-width: 2px;
+                    }
+                }
+            }
+
+            .main_img {
+                height: 85vh;
+                position: relative;
+                position: sticky;
+                top: 30px;
+
+                img {
+                    object-fit: contain;
+                }
+
+                button {
+                    position: absolute;
+                    top: 50%;
+                    @include uniTranslate(Y, -50%);
+                    background-color: #000;
+                    color: $clr_txt2;
+                    font-size: 2rem;
+                    opacity: 0.5;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+
+                    &.prev_btn {
+                        left: 30px;
+                    }
+
+                    &.next_btn {
+                        right: 30px;
+                    }
+                }
+            }
         }
-      }
 
-      .description {
-        font-size: 1.5rem;
-        @include flex();
-        flex-direction: column;
-        gap: 10px;
+        .right_side {
+            @include flex();
+            flex-direction: column;
+            gap: 20px;
 
-        ul {
-          @include flex();
-          flex-direction: column;
-          gap: 10px;
+            &.skel {
+                .name {
+                    height: 25px;
+                    width: 70%;
+                    background-color: #d4d4d4;
+                    animation: skelAnim2 1s linear infinite;
+                }
+
+                .attributes_wrapper {
+                    height: 35px;
+                    width: 65%;
+                    background-color: #d4d4d4;
+                    animation: skelAnim2 1s linear infinite;
+                }
+            }
+
+            .name {
+                font-size: 2.3rem;
+                font-weight: 500;
+            }
+
+            .attributes_wrapper {
+                @include flex();
+                flex-direction: column;
+                gap: 20px;
+
+                .attribute {
+                    .title {
+                        margin-bottom: 7px;
+                        text-transform: uppercase;
+                    }
+
+                    .attr_opts {
+                        @include flex();
+                        gap: 5px;
+
+                        .sel_attr_btn {
+                            width: 50px;
+                            height: 30px;
+                            border: 1px solid $clr_txt;
+                            font-size: 1.2rem;
+
+                            &.active {
+                                background-color: $bg_sub;
+                                color: $clr_txt2;
+                            }
+                        }
+
+                        .sel_clr_btn {
+                            padding: 1px;
+                            border: 1px solid transparent;
+
+                            &.active {
+                                border-color: $clr_acc;
+                            }
+
+                            .clr {
+                                display: block;
+                                width: 25px;
+                                height: 20px;
+                            }
+                        }
+                    }
+
+                    .price {
+                        font-size: 1.5rem;
+                    }
+                }
+            }
+
+            .cart_add {
+                background-color: $clr_acc;
+                text-transform: uppercase;
+                width: 100%;
+                padding-block: 20px;
+                color: $clr_txt2;
+                font-weight: 600;
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+
+                &:disabled {
+                    opacity: 0.5;
+                    filter: grayscale(100%);
+                    cursor: not-allowed;
+                }
+            }
+
+            .description {
+                font-size: 1.5rem;
+                @include flex();
+                flex-direction: column;
+                gap: 10px;
+
+                ul {
+                    @include flex();
+                    flex-direction: column;
+                    gap: 10px;
+                }
+            }
         }
-      }
     }
-  }
 }
 
 .skel_add {
-  width: 100%;
-  height: 50px;
-  background-color: #d4d4d4;
-  margin-top: 50px;
-  animation: skelAnim2 1s linear infinite;
+    width: 100%;
+    height: 50px;
+    background-color: #d4d4d4;
+    margin-top: 50px;
+    animation: skelAnim2 1s linear infinite;
 }
 
 @keyframes skelAnim2 {
-  0%,
-  100% {
-    background-color: #d4d4d4;
-  }
-  50% {
-    background-color: #e9e9e9;
-  }
+    0%,
+    100% {
+        background-color: #d4d4d4;
+    }
+    50% {
+        background-color: #e9e9e9;
+    }
 }
