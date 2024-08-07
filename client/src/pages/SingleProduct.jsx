@@ -14,21 +14,6 @@ import { GetProduct } from "../services/queries";
 import { withRouter } from "../withRouter";
 import Error from "./Error";
 
-function withSearchParams(WrappedComponent) {
-    return (props) => {
-        const [searchParams, setSearchParams] = useSearchParams();
-        const params = useParams();
-        return (
-            <WrappedComponent
-                {...props}
-                searchParams={searchParams}
-                setSearchParams={setSearchParams}
-                params={params}
-            />
-        );
-    };
-}
-
 class SingleProduct extends Component {
     constructor(props) {
         super(props);
@@ -428,5 +413,4 @@ class SingleProduct extends Component {
     }
 }
 
-// export default withSearchParams(SingleProduct);
 export default withRouter(SingleProduct);
