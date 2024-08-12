@@ -2,7 +2,7 @@ import { Component } from "react";
 import { AppContext } from "../context";
 import { Link } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
-import { kebabFormatter, isProductInCart } from "../helpers";
+import { kebabFormatter, cartChecker } from "../helpers";
 import fetchFunc from "../services/config";
 import { AllProducts, CategoryProducts } from "../services/queries";
 import { withRouter } from "../withRouter";
@@ -24,11 +24,6 @@ class Products extends Component {
 
     static contextType = AppContext;
 
-    componentDidMount() {
-        const currentCategory = this.context.currentCategory;
-        if (currentCategory) this.fetchProducts(currentCategory);
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (
             this.context.currentCategory !== this.prevContext?.currentCategory
@@ -49,6 +44,7 @@ class Products extends Component {
     fetchProducts = async (category, signal) => {
         let allProducts = [];
         let isAbort = false;
+
         try {
             this.setState({ loading: true });
             if (category === "all") {
@@ -113,11 +109,11 @@ class Products extends Component {
                     id: Math.random(),
                 };
 
-                const cartItemId = isProductInCart(cartItem, this.context.cart);
+                const checker = cartChecker(cartItem, this.context.cart);
 
-                if (cartItemId) {
+                if (checker.isProductInCart) {
                     modCart = modCart.map((item) =>
-                        item.id === cartItemId
+                        item.id === checker.orderId
                             ? {
                                   ...item,
                                   orderInfo: {

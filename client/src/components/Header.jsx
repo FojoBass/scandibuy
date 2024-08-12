@@ -29,11 +29,8 @@ class Header extends Component {
         const { setCurrentCategory } = this.context;
 
         if (prevState.categories.length !== this.state.categories.length) {
-            if (!params.category) {
-                setCurrentCategory(this.state.categories[0]);
-            } else {
-                setCurrentCategory(params.category);
-            }
+            if (!params.category) setCurrentCategory(this.state.categories[0]);
+            else setCurrentCategory(params.category);
         }
 
         // *Handle Params Change

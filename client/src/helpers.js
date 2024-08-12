@@ -14,38 +14,53 @@ export const getAttibute = (attrId, attrItemId, product, isDefault = false) => {
     return attributeItem ?? null;
 };
 
-export const isProductInCart = (cartItemToAdd, cart) => {
+export const cartChecker = (cartItemToAdd, cart) => {
+    // *Cart checker checks if there is already a product in the cart with same attribute
+
     const { product, orderInfo } = cartItemToAdd;
+    let isProductInCart = false;
+    let orderId = 0;
 
-    const itemInCart =
-        cart.find((item) => item.product.id === product.id) ?? null;
-    if (itemInCart) {
-        const selAttrsToAdd = orderInfo.selectedAttributes;
-        const selAttrsInCart = itemInCart.orderInfo.selectedAttributes;
+    const itemIdInCart =
+        cart.filter((item) => item.product.id === product.id) ?? [];
 
-        if (selAttrsToAdd.length === selAttrsInCart.length) {
-            let checker = false;
-            for (let i = 0; i < selAttrsInCart.length; i++) {
-                const id = selAttrsInCart[i].id;
-                const selAttrToAdd =
-                    selAttrsToAdd.find((attr) => attr.id === id)?.selItem ??
-                    null;
+    if (itemIdInCart.length) {
+        const selectedAttributesToAdd = orderInfo.selectedAttributes;
 
-                if (!selAttrToAdd) {
-                    checker = false;
+        for (let ind = 0; ind < itemIdInCart.length; ind++) {
+            const itemInCartselectedAttributes =
+                itemIdInCart[ind].orderInfo.selectedAttributes;
+
+            const itemOrderId = itemIdInCart[ind].id;
+
+            for (let i = 0; i < itemInCartselectedAttributes.length; i++) {
+                const currentSelectedAttribute =
+                    selectedAttributesToAdd.find(
+                        (attr) => attr.id === itemInCartselectedAttributes[i].id
+                    ) ?? null;
+
+                if (!currentSelectedAttribute) {
+                    isProductInCart = false;
                     break;
-                } else {
-                    if (selAttrToAdd.id !== selAttrsInCart[i].selItem.id) {
-                        checker = false;
-                        break;
-                    }
-                    checker = true;
                 }
+                if (
+                    itemInCartselectedAttributes[i].selItem.value !==
+                    currentSelectedAttribute.selItem.value
+                ) {
+                    isProductInCart = false;
+                    break;
+                } else isProductInCart = true;
             }
-            return checker ? itemInCart.id : checker;
+
+            if (isProductInCart) {
+                orderId = itemOrderId;
+                break;
+            }
         }
+    } else {
+        isProductInCart = false;
     }
-    return false;
+    return { isProductInCart, orderId };
 };
 
 export const kebabFormatter = (value, isLower = true) =>

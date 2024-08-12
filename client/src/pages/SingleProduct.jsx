@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";
-import { kebabFormatter, isProductInCart } from "../helpers";
+import { kebabFormatter, cartChecker } from "../helpers";
 import fetchFunc from "../services/config";
 import { GetProduct } from "../services/queries";
 import { withRouter } from "../withRouter";
@@ -63,30 +63,30 @@ class SingleProduct extends Component {
         const isAttr = this.state.selectedAttributes.some(
             (attr) => attr.id === id
         );
-        const selAttr = isAttr
+        const selectedAttributes = isAttr
             ? this.state.selectedAttributes.map((attr) =>
                   attr.id === id ? { ...attr, selItem: item } : attr
               )
             : [...this.state.selectedAttributes, { id: id, selItem: item }];
-        this.setState({ selectedAttributes: selAttr });
+        this.setState({ selectedAttributes });
 
-        this.checkSelAttributes(selAttr);
+        this.checkSelAttributes(selectedAttributes);
     };
 
-    checkSelAttributes = (selAttrs) => {
+    checkSelAttributes = (selectedAttributes) => {
         const {
             product: { attributes },
         } = this.state;
-        let isAttrSel = true;
+        let isAttributeSelected = true;
 
         for (let i = 0; i < attributes.length; i++) {
-            isAttrSel = selAttrs.some(
+            isAttributeSelected = selectedAttributes.some(
                 (selAttr) => selAttr.id === attributes[i].id
             );
-            if (!isAttrSel) break;
+            if (!isAttributeSelected) break;
         }
 
-        this.setState({ isAddToCart: isAttrSel });
+        this.setState({ isAddToCart: isAttributeSelected });
     };
 
     render() {
@@ -138,10 +138,11 @@ class SingleProduct extends Component {
             };
 
             let modCart = cart;
-            const cartItemId = isProductInCart(cartItem, cart);
-            if (cartItemId) {
+            const checker = cartChecker(cartItem, modCart);
+
+            if (checker.isProductInCart) {
                 modCart = modCart.map((item) =>
-                    item.id === cartItemId
+                    item.id === checker.orderId
                         ? {
                               ...item,
                               orderInfo: {
@@ -156,6 +157,7 @@ class SingleProduct extends Component {
             setCart(modCart);
         };
 
+        // *dummyProd is for skeleton loading
         const dummyProd = {
             gallery: [1, 2, 3],
         };
